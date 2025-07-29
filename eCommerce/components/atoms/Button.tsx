@@ -1,17 +1,52 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import {
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  ViewStyle,
+  TextStyle,
+} from 'react-native';
+import { Colors } from '@/constants/Colors';
 
 interface ButtonProps {
   title: string;
   onPress?: () => void;
   style?: ViewStyle;
   textStyle?: TextStyle;
+  type?: 'default' | 'link' | 'chip';
+  selected?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ title, onPress, style, textStyle }) => {
+const Button: React.FC<ButtonProps> = ({
+  title,
+  onPress,
+  style,
+  textStyle,
+  type = 'default',
+  selected = false,
+}) => {
+  const isChip = type === 'chip';
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
-      <Text style={[styles.text, textStyle]}>{title}</Text>
+    <TouchableOpacity
+      style={[
+        type === 'default' && styles.button,
+        isChip && styles.chip,
+        isChip && selected && styles.chipSelected,
+        style,
+      ]}
+      onPress={onPress}
+    >
+      <Text
+        style={[
+          styles.text,
+          type === 'link' && styles.link,
+          isChip && styles.chipText,
+          isChip && selected && styles.chipSelectedText,
+          textStyle,
+        ]}
+      >
+        {title}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -23,10 +58,37 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: Colors.light.tint,
   },
   text: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: Colors.dark.text,
+  },
+  link: {
+    color: Colors.light.tint,
+    fontWeight: 'normal',
+  },
+  chip: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    marginRight: 10,
+    marginBottom: 10,
+    backgroundColor: '#fff',
+  },
+  chipSelected: {
+    backgroundColor: '#333',
+    borderColor: '#333',
+  },
+  chipText: {
+    fontSize: 14,
+    color: '#333',
+  },
+  chipSelectedText: {
+    color: '#fff',
   },
 });
 

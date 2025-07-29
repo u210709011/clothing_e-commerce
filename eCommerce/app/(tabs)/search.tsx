@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { ThemedText } from '@/components/ThemedText';
+import { Text } from '@/components/atoms/Text';
 import { ThemedView } from '@/components/ThemedView';
 
 export default function SearchScreen() {
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="title">Search</ThemedText>
+      <Text type="title">Search</Text>
     </ThemedView>
   );
 }

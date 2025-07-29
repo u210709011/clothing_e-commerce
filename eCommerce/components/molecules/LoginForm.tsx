@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Input from '../atoms/Input';
+import Input from '../molecules/Input';
 import Button from '../atoms/Button';
 import { Colors } from '@/constants/Colors';
 
@@ -29,12 +29,7 @@ const LoginForm = () => {
         placeholder="Enter your password"
         secureTextEntry
       />
-      <Button
-        title="Sign In"
-        onPress={handleLogin}
-        style={{ backgroundColor: Colors.light.tint }}
-        textStyle={{ color: Colors.dark.text }}
-      />
+      <Button title="Sign In" onPress={handleLogin} />
     </View>
   );
 };

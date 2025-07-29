@@ -1,38 +1,39 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
+import { StyleSheet, View } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
+import { Text } from '@/components/atoms/Text';
 import Button from '@/components/atoms/Button';
-import { Colors } from '@/constants/Colors';
-import { Link } from 'expo-router';
+import { useAuthContext } from '@/auth/providers/AuthProvider';
+import { useRouter } from 'expo-router';
 
-export default function ProfileScreen() {
+const ProfileScreen = () => {
+  const { user, signOut } = useAuthContext();
+  const router = useRouter();
+
+  if (!user) {
+    return (
+      <ThemedView style={styles.container}>
+        <Text>Please sign in to see your profile.</Text>
+        <Button title="Sign In" onPress={() => router.push('/(auth)/sign-in')} />
+      </ThemedView>
+    );
+  }
+
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="title">Profile</ThemedText>
-      <ThemedText style={styles.subtitle}>
-        Sign in to view your profile and orders.
-      </ThemedText>
-      <Link href="/(auth)/sign-in" asChild>
-        <Button
-          title="Sign In"
-          style={{ backgroundColor: Colors.light.tint }}
-          textStyle={{ color: Colors.dark.text }}
-        />
-      </Link>
+      <Text type="title">Profile</Text>
+      <Text>Welcome, {user.email}</Text>
+      <Button title="Sign Out" onPress={signOut} />
     </ThemedView>
   );
-}
+};
+
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
-  },
-  subtitle: {
-    marginTop: 8,
-    marginBottom: 24,
+    justifyContent: 'center',
   },
 });

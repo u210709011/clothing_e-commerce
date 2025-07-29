@@ -1,48 +1,36 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
+import { Text } from '@/components/atoms/Text';
+import Button from '@/components/atoms/Button';
 import LoginForm from '@/components/molecules/LoginForm';
-import { Link } from 'expo-router';
-import { Colors } from '@/constants/Colors';
+import AuthLayout from '@/components/templates/AuthLayout';
+import { Stack, useRouter } from 'expo-router';
 
-const SignInScreen = () => {
+export default function SignInScreen() {
+  const router = useRouter();
+
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title" style={styles.title}>
-        Welcome Back!
-      </ThemedText>
-      <ThemedText type="subtitle" style={styles.subtitle}>
-        Sign in to continue
-      </ThemedText>
+    <AuthLayout title="Welcome Back!" subtitle="Sign in to continue">
       <LoginForm />
-      <View style={styles.signupContainer}>
-        <ThemedText>Don't have an account? </ThemedText>
-        <Link href="/(auth)/sign-up">
-          <ThemedText style={{ color: Colors.light.tint }}>Sign Up</ThemedText>
-        </Link>
-      </View>
-    </ThemedView>
+      <ThemedView style={styles.signupContainer}>
+      <Stack.Screen options={{ title: "Sign In"}} />
+        <Text>Don't have an account? </Text>
+        <Button
+          title="Sign Up"
+          type="link"
+          onPress={() => router.push('/(auth)/sign-up')}
+        />
+      </ThemedView>
+    </AuthLayout>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  title: {
-    marginBottom: 8,
-  },
-  subtitle: {
-    marginBottom: 32,
-  },
   signupContainer: {
     flexDirection: 'row',
-    marginTop: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
   },
 });
-
-export default SignInScreen;

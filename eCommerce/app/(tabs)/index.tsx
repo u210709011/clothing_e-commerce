@@ -1,23 +1,39 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-
-import { ThemedText } from '@/components/ThemedText';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
-import Button from '@/components/atoms/Button';
-import { Colors } from '@/constants/Colors';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import ProductGrid from '@/components/organisms/ProductGrid';
+import { getProducts } from '@/services/product';
+import { Product } from '@/types/product';
+import { ActivityIndicator } from 'react-native';
 
 export default function HomeScreen() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { top } = useSafeAreaInsets();
+
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const fetchedProducts = await getProducts();
+      setProducts(fetchedProducts);
+      setLoading(false);
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <ThemedView style={styles.centered}>
+        <ActivityIndicator size="large" />
+      </ThemedView>
+    );
+  }
+
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title">Welcome to DuyuBox!</ThemedText>
-      <ThemedText type="subtitle">Your one-stop shop for the best clothing.</ThemedText>
-      <View style={styles.separator} />
-      <Button
-        title="Shop Now"
-        onPress={() => console.log('Shop Now Pressed')}
-        style={{ backgroundColor: Colors.light.tint }}
-        textStyle={{ color: Colors.dark.text }}
-      />
+    <ThemedView style={[styles.container, { paddingTop: top }]}>
+      <ProductGrid products={products} />
     </ThemedView>
   );
 }
@@ -25,14 +41,10 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  centered: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-    backgroundColor: '#eee',
   },
 });

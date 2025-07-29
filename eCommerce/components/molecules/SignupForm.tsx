@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Alert } from 'react-native';
-import Input from '../atoms/Input';
+import Input from '../molecules/Input';
 import Button from '../atoms/Button';
 import { Colors } from '@/constants/Colors';
 
@@ -41,12 +41,7 @@ const SignupForm = () => {
         placeholder="Confirm your password"
         secureTextEntry
       />
-      <Button
-        title="Sign Up"
-        onPress={handleSignup}
-        style={{ backgroundColor: Colors.light.tint }}
-        textStyle={{ color: Colors.dark.text }}
-      />
+      <Button title="Sign Up" onPress={handleSignup} />
     </View>
   );
 };
