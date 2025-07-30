@@ -1,21 +1,94 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useLayoutEffect } from 'react';
+import { StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useAuthContext } from '@/auth/providers/AuthProvider';
 import { ThemedView } from '@/components/ThemedView';
 import { Text } from '@/components/atoms/Text';
+import Button from '@/components/atoms/Button';
+import { Icon } from '@/components/atoms/Icon';
+import CartItem from '@/components/molecules/CartItem';
+import { useCart } from '@/hooks/useCart';
+import { Colors } from '@/constants/Colors';
+import { useNavigation } from 'expo-router';
 
-const CartScreen = () => {
+export default function CartScreen() {
   const { user } = useAuthContext();
+  const navigation = useNavigation();
+  const {
+    items,
+    totalPrice,
+    totalItems,
+    isLoading,
+    isEmpty,
+    updateItemQuantity,
+    removeItem,
+    clear,
+  } = useCart();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: `My Cart (${totalItems})`,
+      headerRight: () => (
+        <TouchableOpacity onPress={clear} style={styles.clearButton}>
+          <Icon name="delete" size={24} color={Colors.text} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation, totalItems, clear]);
+
+  if (isLoading) {
+    return (
+      <ThemedView style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.text} />
+      </ThemedView>
+    );
+  }
+
+  if (isEmpty) {
+    return (
+      <ThemedView style={styles.centered}>
+        <Icon name="shopping-cart" size={64} color={Colors.icon} style={styles.emptyIcon} />
+        <Text type="title" style={styles.emptyTitle}>Your Cart is Empty</Text>
+        <Text style={styles.emptyText}>
+          Looks like you haven't added anything to your cart yet.
+        </Text>
+        <Button title="Start Shopping" onPress={() => {  }} />
+      </ThemedView>
+    );
+  }
 
   return (
     <ThemedView style={styles.container}>
-      <Text type="title">Cart</Text>
-      {!user && (
-        <Text style={styles.guestText}>
-          You are browsing as a guest. Sign in to save your cart and checkout
-          faster.
-        </Text>
-      )}
+      <FlatList
+        data={items}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <CartItem
+            item={item}
+            onUpdateQuantity={updateItemQuantity}
+            onRemove={removeItem}
+          />
+        )}
+        contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
+      />
+
+      <ThemedView style={[styles.footer, { borderTopColor: Colors.icon, shadowColor: Colors.text }]}>
+        <ThemedView style={styles.totalRow}>
+          <Text style={styles.totalLabel}>Total</Text>
+          <Text type="title" style={styles.totalAmount}>
+            ${totalPrice.toFixed(2)}
+          </Text>
+        </ThemedView>
+        
+        <Button
+          title="Proceed to Checkout"
+          onPress={() => {
+            // TODO: Navigate to checkout
+            console.log("Navigate to checkout");
+          }}
+          style={styles.checkoutButton}
+        />
+      </ThemedView>
     </ThemedView>
   );
 };
@@ -23,14 +96,57 @@ const CartScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  centered: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },
-  guestText: {
-    marginTop: 20,
+  clearButton: {
+    padding: 8,
+    marginRight: 8,
+  },
+  listContent: {
+    paddingBottom: 16,
+  },
+  footer: {
+    padding: 16,
+    paddingBottom: 24,
+    borderTopWidth: 1,
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 8,
+  },
+  totalRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  totalLabel: {
+    fontSize: 18,
+    color: '#666',
+  },
+  totalAmount: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  checkoutButton: {
+    paddingVertical: 16,
+  },
+  emptyIcon: {
+    marginBottom: 24,
+  },
+  emptyTitle: {
+    marginBottom: 8,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#666',
     textAlign: 'center',
+    marginBottom: 24,
+    maxWidth: '80%',
   },
 });
-
-export default CartScreen;

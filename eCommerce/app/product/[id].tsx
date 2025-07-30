@@ -4,10 +4,12 @@ import {
   ActivityIndicator,
   ScrollView,
   Alert,
-  Pressable,
+  Modal,
+  View,
 } from 'react-native';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import ImageViewer from 'react-native-image-zoom-viewer';
 import { getProductById } from '@/services/product';
 import { Product } from '@/types/product';
 import { ThemedView } from '@/components/ThemedView';
@@ -15,19 +17,19 @@ import { Text } from '@/components/atoms/Text';
 import Button from '@/components/atoms/Button';
 import ProductGallery from '@/components/organisms/ProductGallery';
 import VariantSelector from '@/components/molecules/VariantSelector';
-import FullscreenImageModal from '@/components/modals/FullscreenImageModal';
+import { useCart } from '@/hooks/useCart';
 
-const ProductDetailScreen = () => {
+export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams();
   const { top, bottom } = useSafeAreaInsets();
+  const { addItem } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(
     {}
   );
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [isImageViewerVisible, setIsImageViewerVisible] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -56,20 +58,19 @@ const ProductDetailScreen = () => {
         return;
       }
 
-      console.log('Added to cart:', {
-        product: product.name,
-        options: selectedOptions,
+      addItem({
+        product,
+        quantity: 1,
+        selectedVariants: selectedOptions,
       });
 
-      Alert.alert('Added to cart!');
+      Alert.alert('Added to cart!', `${product.name} has been added to your cart.`);
     }
   };
 
-  const handleImagePress = () => {
-    if (product) {
-      setSelectedImage(product.images[activeImageIndex]);
-      setModalVisible(true);
-    }
+  const handleImagePress = (index: number) => {
+    setCurrentImageIndex(index);
+    setIsImageViewerVisible(true);
   };
 
   if (loading) {
@@ -95,8 +96,8 @@ const ProductDetailScreen = () => {
       <ScrollView>
         <ProductGallery
           images={product.images}
-          onActiveImageChange={setActiveImageIndex}
-          onPress={handleImagePress}
+          onActiveImageChange={setCurrentImageIndex}
+          onImagePress={handleImagePress}
         />
         <ThemedView style={styles.detailsContainer}>
           <Text type="title">{product.name}</Text>
@@ -114,11 +115,27 @@ const ProductDetailScreen = () => {
       <ThemedView style={[styles.buttonContainer, { paddingBottom: bottom || 16 }]}>
         <Button title="Add to Cart" onPress={handleAddToCart} />
       </ThemedView>
-      <FullscreenImageModal
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        imageUrl={selectedImage}
-      />
+      <Modal visible={isImageViewerVisible} transparent={true}>
+        <ImageViewer
+          imageUrls={product?.images.map(uri => ({ url: uri })) || []}
+          index={currentImageIndex}
+          onSwipeDown={() => setIsImageViewerVisible(false)}
+          onClick={() => setIsImageViewerVisible(false)}
+          enableSwipeDown={true}
+          enablePreload={true}
+          renderIndicator={() => <View />}
+          renderFooter={(currentIndex) => {
+            const totalImages = product?.images.length || 0;
+            return (
+              <ThemedView style={styles.imageViewerFooter}>
+                <Text style={styles.imageCounter}>
+                  {(currentIndex || 0) + 1} / {totalImages}
+                </Text>
+              </ThemedView>
+            );
+          }}
+        />
+      </Modal>
     </ThemedView>
   );
 };
@@ -143,8 +160,21 @@ const styles = StyleSheet.create({
     padding: 16,
     borderTopWidth: 1,
     borderTopColor: '#eee',
-    backgroundColor: '#fff',
+  },
+  imageViewerFooter: {
+    position: 'absolute',
+    bottom: 50,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+  },
+  imageCounter: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
   },
 });
-
-export default ProductDetailScreen;

@@ -5,22 +5,20 @@ import { BlurView } from 'expo-blur';
 
 import { HapticTab } from '@/components/HapticTab';
 import { Icon } from '@/components/atoms/Icon';
+import CartIconWithBadge from '@/components/molecules/CartIconWithBadge';
 import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
+        headerShown: true,
+        tabBarShowLabel: false,
         tabBarButton: HapticTab,
         tabBarBackground: () =>
           Platform.OS === 'ios' ? (
             <BlurView
-              tint="systemChromeMaterial"
+              tint="light"
               intensity={100}
               style={StyleSheet.absoluteFill}
             />
@@ -37,8 +35,12 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => (
-            <Icon size={28} name="house.fill" color={color} />
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              size={28}
+              name="home"
+              color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+            />
           ),
         }}
       />
@@ -46,8 +48,12 @@ export default function TabLayout() {
         name="search"
         options={{
           title: 'Search',
-          tabBarIcon: ({ color }) => (
-            <Icon size={28} name="magnifyingglass" color={color} />
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              size={28}
+              name="search"
+              color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+            />
           ),
         }}
       />
@@ -55,8 +61,11 @@ export default function TabLayout() {
         name="cart"
         options={{
           title: 'Cart',
-          tabBarIcon: ({ color }) => (
-            <Icon size={28} name="cart.fill" color={color} />
+          tabBarIcon: ({ focused }) => (
+            <CartIconWithBadge
+              size={28}
+              color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+            />
           ),
         }}
       />
@@ -64,8 +73,12 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color }) => (
-            <Icon size={28} name="person.fill" color={color} />
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              size={28}
+              name="person-outline"
+              color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+            />
           ),
         }}
       />

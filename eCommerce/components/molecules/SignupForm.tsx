@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Alert } from 'react-native';
-import Input from '../molecules/Input';
+import { StyleSheet, Alert } from 'react-native';
+import { ThemedView } from '@/components/ThemedView';
+import Input from '../atoms/Input';
 import Button from '../atoms/Button';
-import { Colors } from '@/constants/Colors';
-
 const SignupForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,13 +13,13 @@ const SignupForm = () => {
       Alert.alert("Passwords don't match!");
       return;
     }
-    // Handle signup logic here
+    // TODO: Handle signup logic here
     console.log('Email:', email);
     console.log('Password:', password);
   };
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <Input
         label="Email"
         value={email}
@@ -42,7 +41,7 @@ const SignupForm = () => {
         secureTextEntry
       />
       <Button title="Sign Up" onPress={handleSignup} />
-    </View>
+    </ThemedView>
   );
 };
 

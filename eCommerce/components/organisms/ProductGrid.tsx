@@ -1,7 +1,8 @@
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
+import { ThemedView } from '@/components/ThemedView';
 import { Product } from '@/types/product';
-import ProductCard from '../organisms/ProductCard';
+import ProductCard from '../molecules/ProductCard';
 
 interface ProductGridProps {
   products: Product[];
@@ -12,9 +13,9 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
     <FlatList
       data={products}
       renderItem={({ item }) => (
-        <View style={styles.cardContainer}>
+        <ThemedView style={styles.cardContainer}>
           <ProductCard product={item} />
-        </View>
+        </ThemedView>
       )}
       keyExtractor={(item) => item.id}
       numColumns={2}

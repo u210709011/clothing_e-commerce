@@ -1,7 +1,6 @@
 import React from 'react';
 import { TextInput, StyleSheet, View, Text, ViewStyle, TextStyle } from 'react-native';
 import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
 
 interface InputProps {
   label: string;
@@ -24,26 +23,23 @@ const Input: React.FC<InputProps> = ({
   inputStyle,
   labelStyle,
 }) => {
-  const colorScheme = useColorScheme() ?? 'light';
-  const themeColors = Colors[colorScheme];
-
   return (
     <View style={[styles.container, containerStyle]}>
-      <Text style={[styles.label, { color: themeColors.text }, labelStyle]}>{label}</Text>
+      <Text style={[styles.label, { color: Colors.text }, labelStyle]}>{label}</Text>
       <TextInput
         style={[
           styles.input,
           {
-            color: themeColors.text,
-            borderColor: themeColors.icon,
-            backgroundColor: themeColors.background,
+            color: Colors.text,
+            borderColor: Colors.icon,
+            backgroundColor: Colors.background,
           },
           inputStyle,
         ]}
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor={themeColors.icon}
+        placeholderTextColor={Colors.icon}
         secureTextEntry={secureTextEntry}
       />
     </View>

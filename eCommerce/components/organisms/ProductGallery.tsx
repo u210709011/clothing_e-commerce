@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  View,
   FlatList,
   StyleSheet,
   Dimensions,
@@ -8,12 +7,13 @@ import {
   NativeScrollEvent,
   Pressable,
 } from 'react-native';
+import { ThemedView } from '@/components/ThemedView';
 import { Image } from '../atoms/Image';
 
 interface ProductGalleryProps {
   images: string[];
   onActiveImageChange?: (index: number) => void;
-  onPress?: () => void;
+  onImagePress?: (index: number) => void;
 }
 
 const { width } = Dimensions.get('window');
@@ -21,7 +21,7 @@ const { width } = Dimensions.get('window');
 const ProductGallery: React.FC<ProductGalleryProps> = ({
   images,
   onActiveImageChange,
-  onPress,
+  onImagePress,
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -33,11 +33,11 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <FlatList
         data={images}
-        renderItem={({ item }) => (
-          <Pressable onPress={onPress}>
+        renderItem={({ item, index }) => (
+          <Pressable onPress={() => onImagePress?.(index)}>
             <Image source={{ uri: item }} style={styles.image} />
           </Pressable>
         )}
@@ -47,9 +47,9 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
         showsHorizontalScrollIndicator={false}
         onScroll={handleScroll}
       />
-      <View style={styles.pagination}>
+      <ThemedView style={styles.pagination}>
         {images.map((_, index) => (
-          <View
+          <ThemedView
             key={index}
             style={[
               styles.dot,
@@ -57,8 +57,8 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
             ]}
           />
         ))}
-      </View>
-    </View>
+      </ThemedView>
+    </ThemedView>
   );
 };
 
@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
   pagination: {
     flexDirection: 'row',
     position: 'absolute',
+    backgroundColor: 'transparent',
     bottom: 10,
     alignSelf: 'center',
   },

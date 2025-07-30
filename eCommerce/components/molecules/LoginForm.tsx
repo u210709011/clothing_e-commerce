@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import Input from '../molecules/Input';
+import { StyleSheet } from 'react-native';
+import { ThemedView } from '@/components/ThemedView';
+import Input from '../atoms/Input';
 import Button from '../atoms/Button';
 import { Colors } from '@/constants/Colors';
 
@@ -9,13 +10,13 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Handle login logic here
+    // TODO: Handle login logic here
     console.log('Email:', email);
     console.log('Password:', password);
   };
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <Input
         label="Email"
         value={email}
@@ -30,7 +31,7 @@ const LoginForm = () => {
         secureTextEntry
       />
       <Button title="Sign In" onPress={handleLogin} />
-    </View>
+    </ThemedView>
   );
 };
 

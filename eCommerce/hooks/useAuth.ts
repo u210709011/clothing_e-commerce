@@ -6,9 +6,8 @@ export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // You might want to load the user from secure storage here
   useEffect(() => {
-    // e.g., loadUserFromStorage().then(setUser);
+    // TODO: Load user from secure storage
   }, []);
 
   const signIn = async (email: string, password: string) => {

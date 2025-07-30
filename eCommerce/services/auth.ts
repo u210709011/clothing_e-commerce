@@ -8,11 +8,10 @@ interface AuthResponse {
 
 export const signIn = async (email: string, password: string): Promise<AuthResponse> => {
   try {
-    // Replace with your actual API call
+    // TODO: Replace with actual API call
     console.log('Signing in with:', email, password);
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network request
+    await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // On success, return user data or token
     return { success: true, user: { email } };
   } catch (error) {
     Alert.alert('Sign In Failed', 'Invalid email or password.');
@@ -22,11 +21,10 @@ export const signIn = async (email: string, password: string): Promise<AuthRespo
 
 export const signUp = async (email: string, password: string): Promise<AuthResponse> => {
   try {
-    // Replace with your actual API call
+    // TODO: Replace with actual API call
     console.log('Signing up with:', email, password);
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network request
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // On success, return user data or token
     return { success: true, user: { email } };
   } catch (error) {
     Alert.alert('Sign Up Failed', 'Could not create an account.');
@@ -36,7 +34,7 @@ export const signUp = async (email: string, password: string): Promise<AuthRespo
 
 export const signOut = async (): Promise<{ success: boolean }> => {
   try {
-    // Replace with your actual API call or local storage clearing
+    // TODO: Replace with actual API call or local storage clearing
     console.log('Signing out');
     await new Promise(resolve => setTimeout(resolve, 500));
     return { success: true };

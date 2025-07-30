@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { ThemedView } from '@/components/ThemedView';
 import { ProductVariant } from '@/types/product';
 import { Text } from '../atoms/Text';
 import Button from '../atoms/Button';
@@ -21,11 +22,11 @@ const VariantSelector: React.FC<VariantSelectorProps> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <Text type="defaultSemiBold" style={styles.name}>
         {variant.name}
       </Text>
-      <View style={styles.valuesContainer}>
+      <ThemedView style={styles.valuesContainer}>
         {variant.values.map((value) => (
           <Button
             key={value}
@@ -35,8 +36,8 @@ const VariantSelector: React.FC<VariantSelectorProps> = ({
             onPress={() => handleSelect(value)}
           />
         ))}
-      </View>
-    </View>
+      </ThemedView>
+    </ThemedView>
   );
 };
 

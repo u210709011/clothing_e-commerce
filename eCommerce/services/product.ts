@@ -28,11 +28,9 @@ const products: Product[] = [
     reviews: [],
     rating: 4.8,
   },
-  // Add more mock products here
 ];
 
 export const getProducts = async (): Promise<Product[]> => {
-  // Simulate API call
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(products);
@@ -41,7 +39,6 @@ export const getProducts = async (): Promise<Product[]> => {
 };
 
 export const getProductById = async (id: string): Promise<Product | undefined> => {
-  // Simulate API call
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(products.find((p) => p.id === id));

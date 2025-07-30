@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Product } from '@/types/product';
 import { useRouter } from 'expo-router';
 import { Text } from '../atoms/Text';

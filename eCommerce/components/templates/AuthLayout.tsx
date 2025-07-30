@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { ThemedView } from '@/components/ThemedView';
 import { Text } from '../atoms/Text';
 
 interface AuthLayoutProps {
@@ -14,17 +15,17 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
   children,
 }) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <ThemedView style={styles.container}>
+      <ThemedView style={styles.header}>
         <Text type="title" style={styles.title}>
           {title}
         </Text>
         <Text type="subtitle" style={styles.subtitle}>
           {subtitle}
         </Text>
-      </View>
+      </ThemedView>
       {children}
-    </View>
+    </ThemedView>
   );
 };
 

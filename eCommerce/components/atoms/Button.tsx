@@ -9,12 +9,13 @@ import {
 import { Colors } from '@/constants/Colors';
 
 interface ButtonProps {
-  title: string;
+  title?: string;
   onPress?: () => void;
   style?: ViewStyle;
   textStyle?: TextStyle;
   type?: 'default' | 'link' | 'chip';
   selected?: boolean;
+  children?: React.ReactNode;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -24,6 +25,7 @@ const Button: React.FC<ButtonProps> = ({
   textStyle,
   type = 'default',
   selected = false,
+  children,
 }) => {
   const isChip = type === 'chip';
   return (
@@ -36,17 +38,21 @@ const Button: React.FC<ButtonProps> = ({
       ]}
       onPress={onPress}
     >
-      <Text
-        style={[
-          styles.text,
-          type === 'link' && styles.link,
-          isChip && styles.chipText,
-          isChip && selected && styles.chipSelectedText,
-          textStyle,
-        ]}
-      >
-        {title}
-      </Text>
+      {title ? (
+        <Text
+          style={[
+            styles.text,
+            type === 'link' && styles.link,
+            isChip && styles.chipText,
+            isChip && selected && styles.chipSelectedText,
+            textStyle,
+          ]}
+        >
+          {title}
+        </Text>
+      ) : (
+        children
+      )}
     </TouchableOpacity>
   );
 };
@@ -58,15 +64,15 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.light.tint,
+    backgroundColor: Colors.tint,
   },
   text: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: Colors.dark.text,
+    color: 'white',
   },
   link: {
-    color: Colors.light.tint,
+    color: Colors.tint,
     fontWeight: 'normal',
   },
   chip: {

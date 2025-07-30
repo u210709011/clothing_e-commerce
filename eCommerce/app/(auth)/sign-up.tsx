@@ -11,10 +11,10 @@ export default function SignUpScreen() {
   const router = useRouter();
 
   return (
-    <AuthLayout title="Create Account" subtitle="Join us and start shopping!">
+    <AuthLayout title="Create Account" subtitle="Get started with your new account">
+      <Stack.Screen options={{ title: "Sign Up"}} />
       <SignupForm />
       <ThemedView style={styles.signinContainer}>
-      <Stack.Screen options={{ title: "Sign Up"}} />
         <Text>Already have an account? </Text>
         <Button
           title="Sign In"
