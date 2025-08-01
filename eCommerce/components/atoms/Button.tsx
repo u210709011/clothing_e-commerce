@@ -13,7 +13,7 @@ interface ButtonProps {
   onPress?: () => void;
   style?: ViewStyle;
   textStyle?: TextStyle;
-  type?: 'default' | 'link' | 'chip';
+  type?: 'default' | 'link' | 'chip' | 'outline';
   selected?: boolean;
   children?: React.ReactNode;
 }
@@ -28,12 +28,14 @@ const Button: React.FC<ButtonProps> = ({
   children,
 }) => {
   const isChip = type === 'chip';
+  const isOutline = type === 'outline';
   return (
     <TouchableOpacity
       style={[
         type === 'default' && styles.button,
         isChip && styles.chip,
         isChip && selected && styles.chipSelected,
+        isOutline && styles.outline,
         style,
       ]}
       onPress={onPress}
@@ -45,6 +47,7 @@ const Button: React.FC<ButtonProps> = ({
             type === 'link' && styles.link,
             isChip && styles.chipText,
             isChip && selected && styles.chipSelectedText,
+            isOutline && styles.outlineText,
             textStyle,
           ]}
         >
@@ -64,7 +67,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.tint,
+    backgroundColor: Colors.tabIconSelected,
   },
   text: {
     fontSize: 16,
@@ -95,6 +98,14 @@ const styles = StyleSheet.create({
   },
   chipSelectedText: {
     color: '#fff',
+  },
+  outline: {
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: Colors.tint,
+  },
+  outlineText: {
+    color: Colors.tint,
   },
 });
 

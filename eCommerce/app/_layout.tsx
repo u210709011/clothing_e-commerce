@@ -16,6 +16,9 @@ export default function RootLayout() {
     InterRegular: require('../assets/fonts/Inter-Regular.otf'),
     InterBold: require('../assets/fonts/Inter-Bold.otf'),
     InterSemiBold: require('../assets/fonts/Inter-SemiBold.otf'),
+    MaterialIcons: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialIcons.ttf'),
+    Ionicons: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
+    Feather: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Feather.ttf'),
   });
 
   useEffect(() => {

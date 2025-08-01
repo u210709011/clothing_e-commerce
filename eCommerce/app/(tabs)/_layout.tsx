@@ -1,70 +1,55 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform, StyleSheet } from 'react-native';
-import { BlurView } from 'expo-blur';
+import { Tabs } from "expo-router";
+import React from "react";
+import {  View } from "react-native";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import CartIconWithBadge from "@/components/molecules/CartIconWithBadge";
+import { Colors } from "@/constants/Colors";
 
-import { HapticTab } from '@/components/HapticTab';
-import { Icon } from '@/components/atoms/Icon';
-import CartIconWithBadge from '@/components/molecules/CartIconWithBadge';
-import { Colors } from '@/constants/Colors';
+
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
         headerShown: true,
+        headerShadowVisible: false,
         tabBarShowLabel: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: () =>
-          Platform.OS === 'ios' ? (
-            <BlurView
-              tint="light"
-              intensity={100}
-              style={StyleSheet.absoluteFill}
-            />
-          ) : null,
-        tabBarStyle: Platform.select({
-          ios: {
-            position: 'absolute',
-            backgroundColor: 'transparent',
-          },
-          default: {},
-        }),
-      }}>
+        tabBarActiveTintColor: Colors.tabIconSelected,
+        tabBarInactiveTintColor: Colors.tabIconDefault,
+        tabBarStyle: {
+          backgroundColor: "white",
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ focused }) => (
-            <Icon
-              size={28}
-              name="home"
-              color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
-            />
+          tabBarIcon: ({ color }) => (
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <MaterialIcons size={28} name="home" color={color} />
+            </View>
           ),
         }}
       />
       <Tabs.Screen
-        name="search"
+        name="wishlist"
         options={{
-          title: 'Search',
-          tabBarIcon: ({ focused }) => (
-            <Icon
-              size={28}
-              name="search"
-              color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
-            />
+          title: "Wishlist",
+          tabBarIcon: ({ color }) => (
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <MaterialIcons size={28} name="favorite" color={color} />
+            </View>
           ),
         }}
       />
       <Tabs.Screen
         name="cart"
         options={{
-          title: 'Cart',
-          tabBarIcon: ({ focused }) => (
+          title: "Cart",
+          tabBarIcon: ({ color }) => (
             <CartIconWithBadge
               size={28}
-              color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+              color={color}
             />
           ),
         }}
@@ -72,13 +57,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
-          tabBarIcon: ({ focused }) => (
-            <Icon
-              size={28}
-              name="person-outline"
-              color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
-            />
+          title: "Profile",
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons size={28} name="person" color={color} />
           ),
         }}
       />

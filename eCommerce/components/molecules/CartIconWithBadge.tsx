@@ -18,7 +18,7 @@ const CartIconWithBadge: React.FC<CartIconWithBadgeProps> = ({
 
   return (
     <ThemedView style={styles.container}>
-      <Icon size={size} name="shopping-cart" color={color} />
+      <Icon size={size} name="shopping-cart" style={{ color: color }} />
       {totalItems > 0 && (
         <ThemedView style={styles.badge}>
           <Text style={styles.badgeText}>
@@ -33,6 +33,7 @@ const CartIconWithBadge: React.FC<CartIconWithBadgeProps> = ({
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
+    backgroundColor: 'transparent',
   },
   badge: {
     position: 'absolute',

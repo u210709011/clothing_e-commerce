@@ -5,35 +5,31 @@ import { Image } from '@/components/atoms/Image';
 import { Colors } from '@/constants/Colors';
 
 const { width } = Dimensions.get('window');
-const cardWidth = (width - 48) / 2; // 2 cards per row with 16px margins
 
-interface CategoryCardProps {
+interface PromoBannerProps {
   title: string;
   subtitle: string;
-  count: number;
+  discount?: string;
   imageUrl: string;
   backgroundColor: string;
   onPress: () => void;
 }
 
-const CategoryCard: React.FC<CategoryCardProps> = ({
+const PromoBanner: React.FC<PromoBannerProps> = ({
   title,
   subtitle,
-  count,
+  discount,
   imageUrl,
   backgroundColor,
   onPress,
 }) => {
   return (
-    <TouchableOpacity 
-      style={[styles.container, { backgroundColor }]} 
-      onPress={onPress}
-    >
+    <TouchableOpacity style={[styles.container, { backgroundColor }]} onPress={onPress}>
       <View style={styles.content}>
         <View style={styles.textContainer}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.subtitle}>{subtitle}</Text>
-          <Text style={styles.count}>{count}</Text>
+          {discount && <Text style={styles.discount}>{discount}</Text>}
         </View>
         <View style={styles.imageContainer}>
           <Image source={{ uri: imageUrl }} style={styles.image} />
@@ -45,54 +41,49 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: cardWidth,
-    height: 100,
+    width: width - 32,
+    height: 120,
     borderRadius: 12,
-    marginBottom: 12,
+    marginHorizontal: 16,
+    marginVertical: 6,
     overflow: 'hidden',
-    shadowColor: Colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
   },
   content: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
   },
   textContainer: {
     flex: 1,
   },
   title: {
-    fontSize: 16,
+    fontSize: 24,
     fontWeight: 'bold',
     color: Colors.background,
-    marginBottom: 2,
-  },
-  subtitle: {
-    fontSize: 12,
-    color: Colors.background,
-    opacity: 0.8,
     marginBottom: 4,
   },
-  count: {
-    fontSize: 14,
-    fontWeight: '600',
+  subtitle: {
+    fontSize: 16,
     color: Colors.background,
+    opacity: 0.9,
+    marginBottom: 8,
+  },
+  discount: {
+    fontSize: 14,
+    color: Colors.background,
+    opacity: 0.8,
   },
   imageContainer: {
-    width: 50,
-    height: 50,
+    width: 80,
+    height: 80,
   },
   image: {
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
-    borderRadius: 8,
   },
 });
 
-export default CategoryCard;
+export default PromoBanner;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import { Product } from '@/types/product';
 import { useRouter } from 'expo-router';
 import { Text } from '../atoms/Text';
@@ -8,15 +8,25 @@ import { ThemedView } from '../ThemedView';
 
 interface ProductCardProps {
   product: Product;
+  onPress?: () => void;
+  style?: ViewStyle;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, onPress, style }) => {
   const router = useRouter();
+
+  const handlePress = () => {
+    if (onPress) {
+      onPress();
+    } else {
+      router.push(`/product/${product.id}`);
+    }
+  };
 
   return (
     <TouchableOpacity
-      style={styles.container}
-      onPress={() => router.push(`/product/${product.id}`)}
+      style={[styles.container, style]}
+      onPress={handlePress}
     >
       <Image source={{ uri: product.images[0] }} style={styles.image} />
       <ThemedView style={styles.infoContainer}>
