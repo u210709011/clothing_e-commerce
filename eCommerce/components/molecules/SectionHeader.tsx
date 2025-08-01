@@ -7,6 +7,7 @@ import { Colors } from '@/constants/Colors';
 interface SectionHeaderProps {
   title: string;
   showSeeAll?: boolean;
+  navigateTo?: string;
   onSeeAllPress?: () => void;
   style?: any;
 }
@@ -14,6 +15,7 @@ interface SectionHeaderProps {
 const SectionHeader: React.FC<SectionHeaderProps> = ({
   title,
   showSeeAll = true,
+  navigateTo,
   onSeeAllPress,
   style,
 }) => {
@@ -22,7 +24,8 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
       <Text style={styles.title}>{title}</Text>
       {showSeeAll && (
         <TouchableOpacity style={styles.seeAllButton} onPress={onSeeAllPress}>
-          <Text style={styles.seeAllText}>See All</Text>
+          <Text style={styles.seeAllText}>{navigateTo ? navigateTo : 'See All'}</Text>
+          
           <Icon 
             name="chevron-right" 
             size={16} 
@@ -58,7 +61,8 @@ const styles = StyleSheet.create({
   },
   seeAllText: {
     fontSize: 14,
-    color: Colors.background,
+    paddingRight: 5,
+    color: Colors.tabIconSelected,
     fontWeight: '600',
   },
   chevron: {

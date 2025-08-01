@@ -24,7 +24,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
   onClose,
   onApply,
 }) => {
-  // Mock data based on your mockup
+
   const [selectedCategories, setSelectedCategories] = useState<string[]>(['dresses', 'pants', 'shirts']);
   const [selectedSizes, setSelectedSizes] = useState<string[]>(['M']);
   const [selectedColors, setSelectedColors] = useState<string[]>(['blue']);
@@ -143,12 +143,10 @@ const FilterModal: React.FC<FilterModalProps> = ({
         </View>
 
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-          {/* Categories */}
           <View style={styles.section}>
             {renderCategoryGrid()}
           </View>
 
-          {/* Size */}
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Size</Text>
@@ -182,7 +180,6 @@ const FilterModal: React.FC<FilterModalProps> = ({
             </View>
           </View>
 
-          {/* Color */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Color</Text>
             <View style={styles.colorGrid}>
@@ -204,7 +201,6 @@ const FilterModal: React.FC<FilterModalProps> = ({
             </View>
           </View>
 
-          {/* Price */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Price</Text>
             <Text style={styles.priceRange}>${priceRange[0]} — ${priceRange[1]}</Text>
@@ -214,7 +210,6 @@ const FilterModal: React.FC<FilterModalProps> = ({
             </View>
           </View>
 
-          {/* Sort */}
           <View style={styles.section}>
             <View style={styles.sortGrid}>
               {sortOptions.map((option) => (
@@ -431,7 +426,6 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   selectedSortItem: {
-    // Add any specific styling for selected sort items if needed
   },
   radioButton: {
     width: 20,

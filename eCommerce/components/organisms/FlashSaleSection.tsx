@@ -69,6 +69,7 @@ const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
         <SectionHeader
           title="Flash Sale"
           showSeeAll={true}
+          navigateTo="See the Deals"
           onSeeAllPress={onSeeAllPress}
           style={styles.sectionHeader}
         />
@@ -84,7 +85,7 @@ const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
           <FlashSaleCard
             key={product.id}
             product={product}
-            discount={20} // Mock discount
+            discount={20}
             onPress={() => onProductPress(product)}
           />
         ))}

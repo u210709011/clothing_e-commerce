@@ -5,14 +5,12 @@ import { CartStorage } from '@/utils/storage';
 interface CartStore extends Cart {
   isLoading: boolean;
   
-  // Actions
   addToCart: (data: AddToCartData) => void;
   removeFromCart: (itemId: string) => void;
   updateQuantity: (itemId: string, quantity: number) => void;
   clearCart: () => void;
   loadCart: () => Promise<void>;
   
-  // Computed values
   getItemCount: () => number;
   getTotalPrice: () => number;
 }
@@ -40,14 +38,12 @@ export const useCartStore = create<CartStore>((set, get) => ({
     let newItems: CartItem[];
     
     if (existingItemIndex >= 0) {
-      // Update existing item quantity
       newItems = state.items.map((item, index) => 
         index === existingItemIndex 
           ? { ...item, quantity: item.quantity + data.quantity }
           : item
       );
     } else {
-      // Add new item
       const newItem: CartItem = {
         id: itemId,
         product: data.product,

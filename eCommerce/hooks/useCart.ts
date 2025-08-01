@@ -17,7 +17,6 @@ export const useCart = () => {
     getTotalPrice,
   } = useCartStore();
 
-  // Load cart from storage on mount
   useEffect(() => {
     loadCart();
   }, [loadCart]);
@@ -41,20 +40,17 @@ export const useCart = () => {
   const isEmpty = items.length === 0;
 
   return {
-    // State
     items,
     totalItems,
     totalPrice,
     isLoading,
     isEmpty,
     
-    // Actions
     addItem,
     removeItem,
     updateItemQuantity,
     clear,
-    
-    // Computed
+  
     getItemCount,
     getTotalPrice,
   };

@@ -8,6 +8,8 @@ interface BadgeProps {
   style?: ViewStyle;
   textStyle?: TextStyle;
   variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+  backgroundColor?: string;
+  textColor?: string;
 }
 
 const Badge: React.FC<BadgeProps> = ({
@@ -15,6 +17,8 @@ const Badge: React.FC<BadgeProps> = ({
   style,
   textStyle,
   variant = 'primary',
+  backgroundColor,
+  textColor,
 }) => {
   const getVariantStyle = () => {
     switch (variant) {
@@ -31,9 +35,12 @@ const Badge: React.FC<BadgeProps> = ({
     }
   };
 
+  const customStyle = backgroundColor ? { backgroundColor } : getVariantStyle();
+  const customTextStyle = textColor ? { color: textColor } : {};
+
   return (
-    <View style={[styles.container, getVariantStyle(), style]}>
-      <Text style={[styles.text, textStyle]}>{text}</Text>
+    <View style={[styles.container, customStyle, style]}>
+      <Text style={[styles.text, customTextStyle, textStyle]}>{text}</Text>
     </View>
   );
 };

@@ -8,7 +8,7 @@ interface Category {
   title: string;
   subtitle: string;
   count: number;
-  imageUrl: string;
+  imageUrls: string[];
   backgroundColor: string;
 }
 
@@ -24,7 +24,7 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({
   onCategoryPress,
 }) => {
   return (
-    <View style={styles.container}>
+    <View >
       <SectionHeader
         title="Categories"
         showSeeAll={true}
@@ -38,7 +38,7 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({
             title={category.title}
             subtitle={category.subtitle}
             count={category.count}
-            imageUrl={category.imageUrl}
+            imageUrls={category.imageUrls}
             backgroundColor={category.backgroundColor}
             onPress={() => onCategoryPress(category)}
           />
@@ -49,9 +49,7 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginBottom: 24,
-  },
+  
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',

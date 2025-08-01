@@ -14,7 +14,7 @@ interface SearchBarProps {
   showBackButton?: boolean;
   editable?: boolean;
   onPress?: () => void;
-  inHeader?: boolean; // New prop for header usage
+  inHeader?: boolean; 
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
@@ -81,9 +81,9 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   headerContainer: {
-    paddingHorizontal: 0, // Remove padding when in header
-    flex: 1, // Take available space in header
-    minWidth: 200, // Ensure minimum width
+    paddingHorizontal: 0,
+    flex: 1, 
+    minWidth: 200,
   },
   searchContainer: {
     flex: 1,
@@ -95,9 +95,9 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderWidth: 2,
     borderColor: Colors.tint,
-    minHeight: 36, // Ensure consistent height
-    height: 36, // Fixed height for header
-    width: '100%', // Ensure full width
+    minHeight: 36, 
+    height: 36, 
+    width: '100%',
   },
   touchableSearch: {
     backgroundColor: '#F8F9FA',

@@ -1,4 +1,4 @@
 export interface User {
   email: string;
-  // TODO: Add other user propertis
+  // TODO: Add other user proporties
 }

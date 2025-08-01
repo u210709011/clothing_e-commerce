@@ -14,6 +14,9 @@ import SectionHeader from "@/components/molecules/SectionHeader";
 import SearchBar from "@/components/molecules/SearchBar";
 import FlashSaleSection from "@/components/organisms/FlashSaleSection";
 import CategoriesSection from "@/components/organisms/CategoriesSection";
+import NewItemsSection from "@/components/organisms/NewItemsSection";
+import ProductListSection from "@/components/organisms/ProductListSection";
+import { Text } from "@/components/atoms/Text";
 
 import { getProducts } from "@/services/product";
 import { Product } from "@/types/product";
@@ -51,7 +54,6 @@ export default function HomeScreen() {
     fetchProducts();
   }, []);
 
-  // Mock data for promo banners
   const promoBanners = [
     {
       id: "1",
@@ -73,65 +75,55 @@ export default function HomeScreen() {
     },
   ];
 
-  // Mock categories
   const categories = [
     {
       id: "1",
       title: "Clothing",
       subtitle: "Latest trends",
       count: 109,
-      imageUrl:
+      imageUrls: [
         "https://images.unsplash.com/photo-1445205170230-053b83016050?w=100&h=100&fit=crop",
-      backgroundColor: "#4ECDC4",
+        "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=100&h=100&fit=crop",
+        "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=100&h=100&fit=crop",
+
+      ],
+      backgroundColor: "#E8D5F2",
     },
     {
-      id: "2",
+      id: "2", 
       title: "Shoes",
       subtitle: "Comfort & style",
       count: 530,
-      imageUrl:
+      imageUrls: [
         "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=100&h=100&fit=crop",
-      backgroundColor: "#45B7D1",
+        "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=100&h=100&fit=crop",
+      ],
+      backgroundColor: "#FFE5D9",
     },
     {
       id: "3",
       title: "Bags",
-      subtitle: "Carry in style",
+      subtitle: "Carry in style", 
       count: 87,
-      imageUrl:
+      imageUrls: [
         "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=100&h=100&fit=crop",
-      backgroundColor: "#F7DC6F",
+        "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=100&h=100&fit=crop",
+        "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=100&h=100&fit=crop",
+        "https://images.unsplash.com/photo-1591561954557-26941169b49e?w=100&h=100&fit=crop",
+      ],
+      backgroundColor: "#FFF2CC",
     },
     {
       id: "4",
-      title: "Lingerie",
+      title: "Lingerie", 
       subtitle: "Comfort first",
       count: 218,
-      imageUrl:
-        "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=100&h=100&fit=crop",
-      backgroundColor: "#BB8FCE",
-    },
-    {
-      id: "5",
-      title: "Watch",
-      subtitle: "Timeless pieces",
-      count: 328,
-      imageUrl:
-        "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=100&h=100&fit=crop",
-      backgroundColor: "#85C1E9",
-    },
-    {
-      id: "6",
-      title: "Hoodies",
-      subtitle: "Stay cozy",
-      count: 218,
-      imageUrl:
-        "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=100&h=100&fit=crop",
-      backgroundColor: "#F8C471",
+      imageUrls: [
+      ],
+      backgroundColor: "#F0E6FF",
     },
   ];
 
-  // Mock flash sale end time (24 hours from now)
   const flashSaleEndTime = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
   const handleProductPress = (product: Product) => {
@@ -144,7 +136,7 @@ export default function HomeScreen() {
 
   const handleSeeAllPress = (section: string) => {
     console.log(`Navigate to see all ${section}`);
-    // TODO: Navigate to appropriate section
+    // TODO: Navigate to se all
   };
 
   const renderPromoBanner = ({ item }: { item: any }) => (
@@ -173,15 +165,13 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {/* Promo Banners */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           pagingEnabled
-          snapToInterval={320} // Banner width + margin
+          snapToInterval={320}
           decelerationRate="fast"
           contentContainerStyle={styles.bannerContainer}
-          style={styles.bannerList}
         >
           {promoBanners.map((item) => (
             <View key={item.id}>
@@ -190,49 +180,46 @@ export default function HomeScreen() {
           ))}
         </ScrollView>
 
-        {/* Categories Section */}
         <CategoriesSection
           categories={categories}
           onCategoryPress={handleCategoryPress}
           onSeeAllPress={() => handleSeeAllPress("categories")}
         />
 
-        {/* Flash Sale Section */}
+        <ProductListSection
+          title="New Items"
+          products={products.slice(0, 6)}
+          onProductPress={handleProductPress}
+          onSeeAllPress={() => handleSeeAllPress("new-items")}
+        />
+
         <FlashSaleSection
-          products={products.slice(0, 6)} // Show first 6 products for flash sale
+          products={products.slice(0, 6)}
           endTime={flashSaleEndTime}
           onProductPress={handleProductPress}
           onSeeAllPress={() => handleSeeAllPress("flash-sale")}
         />
 
-        {/* Most Popular Section */}
-        <SectionHeader
+        <ProductListSection
           title="Most Popular"
+          products={products.slice(0, 6)}
+          onProductPress={handleProductPress}
           onSeeAllPress={() => handleSeeAllPress("popular")}
         />
-        <View style={styles.productGrid}>
-          {products.slice(6, 12).map((product) => (
-            <ProductCard 
-              key={product.id} 
-              product={product} 
-              style={styles.productCard}
-              onPress={() => handleProductPress(product)}
-            />
-          ))}
-        </View>
 
-        {/* Just For You Section */}
-        <SectionHeader title="Just For You" showSeeAll={false} />
-        <View style={styles.productGrid}>
-          {products.slice(12).map((product) => (
-            <ProductCard 
-              key={product.id} 
-              product={product} 
-              style={styles.productCard}
-              onPress={() => handleProductPress(product)}
-            />
-          ))}
-        </View>
+        <ProductListSection
+          title="Just For You"
+          products={products.slice(0, 6)}
+          onProductPress={handleProductPress}
+          onSeeAllPress={() => handleSeeAllPress("recommended")}
+        />
+
+        <ProductListSection
+          title="Trending Now"
+          products={products.slice(0, 6)}
+          onProductPress={handleProductPress}
+          onSeeAllPress={() => handleSeeAllPress("trending")}
+        />
       </ScrollView>
     </ThemedView>
   );
@@ -254,10 +241,7 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   bannerContainer: {
-    paddingVertical: 16,
-  },
-  bannerList: {
-    marginBottom: 8,
+    paddingTop: 10,
   },
   headerRight: {
     paddingRight: 25,

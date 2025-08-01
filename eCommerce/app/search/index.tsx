@@ -23,7 +23,6 @@ export default function SearchScreen() {
   const navigation = useNavigation();
   const { bottom , top} = useSafeAreaInsets();
 
-  // Mock search history and recommendations
   const searchHistory = ['Socks', 'Red Dress', 'Sunglasses', 'Mustard Pants', '80-s Skirt'];
   const recommendations = ['Skirt', 'Accessories', 'Black T-Shirt', 'Jeans', 'White Shoes'];
 
@@ -59,9 +58,7 @@ export default function SearchScreen() {
   };
 
   const handleApplyFilters = (filters: any) => {
-    // Apply filters to products
     console.log('Applied filters:', filters);
-    // Update active filters for display
     const filterLabels = [];
     if (filters.categories?.length > 0) {
       filterLabels.push(`${filters.categories.length} Categories`);

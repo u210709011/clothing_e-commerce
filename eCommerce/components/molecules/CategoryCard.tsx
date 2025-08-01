@@ -1,43 +1,70 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity, View, Dimensions } from 'react-native';
-import { Text } from '@/components/atoms/Text';
-import { Image } from '@/components/atoms/Image';
-import { Colors } from '@/constants/Colors';
+import React from "react";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Dimensions,
+} from "react-native";
+import { Text } from "@/components/atoms/Text";
+import { Image } from "@/components/atoms/Image";
+import { Badge } from "@/components/atoms/Badge";
+import { Colors } from "@/constants/Colors";
 
-const { width } = Dimensions.get('window');
-const cardWidth = (width - 48) / 2; // 2 cards per row with 16px margins
+const { width } = Dimensions.get("window");
+const cardWidth = (width - 48) / 2; 
+const placeholderImage = 'https://mlpnk72yciwc.i.optimole.com/cqhiHLc.IIZS~2ef73/w:auto/h:auto/q:75/https://bleedingcool.com/wp-content/uploads/2021/06/Pikachu-color-model-publicity-cel.jpg';
 
 interface CategoryCardProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   count: number;
-  imageUrl: string;
+  imageUrls: string[];
   backgroundColor: string;
   onPress: () => void;
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({
   title,
-  subtitle,
   count,
-  imageUrl,
+  imageUrls,
   backgroundColor,
   onPress,
 }) => {
   return (
-    <TouchableOpacity 
-      style={[styles.container, { backgroundColor }]} 
-      onPress={onPress}
-    >
-      <View style={styles.content}>
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.subtitle}>{subtitle}</Text>
-          <Text style={styles.count}>{count}</Text>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
+      <View style={[styles.imageContainer]}>
+        <View style={styles.imageGrid}>
+        <Image
+              source={{ uri: (imageUrls[0] ? imageUrls[0] : placeholderImage) }}
+              style={styles.image}
+              resizeMode="cover"
+              />
+              <Image
+              source={{ uri: (imageUrls[1] ? imageUrls[1] : placeholderImage) }}
+              style={styles.image}
+              resizeMode="cover"
+              />
+              <Image
+              source={{ uri: (imageUrls[2] ? imageUrls[2] : placeholderImage) }}
+              style={styles.image}
+              resizeMode="cover"
+              />
+              <Image
+              source={{ uri: (imageUrls[3] ? imageUrls[3] : placeholderImage) }}
+              style={styles.image}
+              resizeMode="cover"
+              />
+              
         </View>
-        <View style={styles.imageContainer}>
-          <Image source={{ uri: imageUrl }} style={styles.image} />
-        </View>
+      </View>
+
+      <View style={styles.textContainer}>
+        <Text style={styles.title}>{title}</Text>
+        <Badge 
+          text={count.toString()} 
+          backgroundColor="#e6f3ff"
+          textColor="#0a7ea4"
+        />
       </View>
     </TouchableOpacity>
   );
@@ -46,52 +73,51 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 const styles = StyleSheet.create({
   container: {
     width: cardWidth,
-    height: 100,
-    borderRadius: 12,
-    marginBottom: 12,
+    marginBottom: 16,
+    borderRadius: 16,
     overflow: 'hidden',
-    shadowColor: Colors.text,
-    shadowOffset: { width: 0, height: 2 },
+    backgroundColor: Colors.background,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowRadius: 8,
+    elevation: 4,
   },
-  content: {
+  imageContainer: {
+    height: 120,
+    padding: 0,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+  },
+  imageGrid: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    flexWrap: 'wrap',
+    padding: 4,
+    overflow: 'hidden',
+  },
+  image: {
+    width: '50%',
+    height: '50%',
+    borderRadius: 12,
+    overflow: 'hidden',
+    padding: 2,
   },
   textContainer: {
-    flex: 1,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: Colors.background,
   },
   title: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: Colors.background,
-    marginBottom: 2,
-  },
-  subtitle: {
-    fontSize: 12,
-    color: Colors.background,
-    opacity: 0.8,
-    marginBottom: 4,
-  },
-  count: {
-    fontSize: 14,
     fontWeight: '600',
-    color: Colors.background,
-  },
-  imageContainer: {
-    width: 50,
-    height: 50,
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
-    borderRadius: 8,
+    color: Colors.text,
+    flex: 1,
   },
 });
 

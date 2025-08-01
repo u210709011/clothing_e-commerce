@@ -34,7 +34,7 @@ export const signUp = async (email: string, password: string): Promise<AuthRespo
 
 export const signOut = async (): Promise<{ success: boolean }> => {
   try {
-    // TODO: Replace with actual API call or local storage clearing
+    // TODO: Replace with actual API cal
     console.log('Signing out');
     await new Promise(resolve => setTimeout(resolve, 500));
     return { success: true };

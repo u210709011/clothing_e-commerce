@@ -13,9 +13,8 @@ export default function WishlistScreen() {
 
   useEffect(() => {
     const fetchWishlistProducts = async () => {
-      // Mock wishlist - in real app, this would come from user's saved items
       const allProducts = await getProducts();
-      const mockWishlist = allProducts.slice(0, 4); // Just show first 4 as wishlist items
+      const mockWishlist = allProducts.slice(0, 4);
       setWishlistProducts(mockWishlist);
       setLoading(false);
     };

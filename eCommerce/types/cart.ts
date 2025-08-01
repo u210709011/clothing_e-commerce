@@ -4,7 +4,7 @@ export interface CartItem {
   id: string;
   product: Product;
   quantity: number;
-  selectedVariants: Record<string, string>; // variantId -> value
+  selectedVariants: Record<string, string>; 
   dateAdded: string;
 }
 
