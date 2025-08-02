@@ -11,18 +11,24 @@ import { Stack, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { getProductById } from '@/services/product';
+import { getMockRelatedProducts } from '@/services/mockData';
 import { Product } from '@/types/product';
 import { ThemedView } from '@/components/ThemedView';
 import { Text } from '@/components/atoms/Text';
 import Button from '@/components/atoms/Button';
 import ProductGallery from '@/components/organisms/ProductGallery';
-import VariantSelector from '@/components/molecules/VariantSelector';
+import ProductInfo from '@/components/organisms/ProductInfo';
+import ProductSpecs from '@/components/organisms/ProductSpecs';
+import ReviewSection from '@/components/organisms/ReviewSection';
+import ProductListSection from '@/components/organisms/ProductListSection';
 import { useCart } from '@/hooks/useCart';
+import { useWishlist } from '@/store/user';
 
 export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams();
   const { top, bottom } = useSafeAreaInsets();
   const { addItem } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist, loadWishlist } = useWishlist();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(
@@ -30,18 +36,25 @@ export default function ProductDetailScreen() {
   );
   const [isImageViewerVisible, setIsImageViewerVisible] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchProduct = async () => {
       if (typeof id === 'string') {
         const fetchedProduct = await getProductById(id);
         setProduct(fetchedProduct || null);
+        
+        if (fetchedProduct) {
+          const relatedProducts = getMockRelatedProducts(fetchedProduct.id, 4);
+          setRelatedProducts(relatedProducts);
+        }
       }
       setLoading(false);
     };
 
     fetchProduct();
-  }, [id]);
+    loadWishlist();
+  }, [id, loadWishlist]);
 
   const handleVariantSelect = (variantId: string, value: string) => {
     setSelectedOptions((prev) => ({ ...prev, [variantId]: value }));
@@ -73,6 +86,24 @@ export default function ProductDetailScreen() {
     setIsImageViewerVisible(true);
   };
 
+  const handleWishlistToggle = () => {
+    if (product) {
+      if (isInWishlist(product.id)) {
+        removeFromWishlist(product.id);
+      } else {
+        addToWishlist(product);
+      }
+    }
+  };
+
+  const handleSizeGuidePress = () => {
+    console.log('Size guide pressed');
+  };
+
+  const handleProductPress = (product: Product) => {
+    console.log('Product pressed:', product.id);
+  };
+
   if (loading) {
     return (
       <ThemedView style={styles.centered}>
@@ -93,27 +124,58 @@ export default function ProductDetailScreen() {
   return (
     <ThemedView style={styles.container}>
       <Stack.Screen options={{ title: product.name }} />
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <ProductGallery
           images={product.images}
           onActiveImageChange={setCurrentImageIndex}
           onImagePress={handleImagePress}
         />
-        <ThemedView style={styles.detailsContainer}>
-          <Text type="title">{product.name}</Text>
-          <Text type="subtitle">${product.price.toFixed(2)}</Text>
-          {product.variants.map((variant) => (
-            <VariantSelector
-              key={variant.id}
-              variant={variant}
-              onSelect={handleVariantSelect}
-            />
-          ))}
-          <Text style={styles.description}>{product.description}</Text>
-        </ThemedView>
+        
+        <ProductInfo
+          product={product}
+          selectedOptions={selectedOptions}
+          onVariantSelect={handleVariantSelect}
+          onWishlistToggle={handleWishlistToggle}
+          isWishlisted={isInWishlist(product.id)}
+        />
+
+        <ProductSpecs onSizeGuidePress={handleSizeGuidePress} />
+
+        <ReviewSection
+          reviews={product.reviews}
+          rating={product.rating}
+          onViewAllReviews={() => console.log('View all reviews')}
+        />
+
+        <ProductListSection
+          title="Most Popular"
+          products={relatedProducts}
+          onProductPress={handleProductPress}
+          onSeeAllPress={() => console.log('See all popular')}
+        />
+
+        <ProductListSection
+          title="You Might Like"
+          products={relatedProducts}
+          onProductPress={handleProductPress}
+          onSeeAllPress={() => console.log('See all recommendations')}
+          showSeeAll={false}
+        />
       </ScrollView>
+      
       <ThemedView style={[styles.buttonContainer, { paddingBottom: bottom || 16 }]}>
-        <Button title="Add to Cart" onPress={handleAddToCart} />
+        <View style={styles.actionButtons}>
+          <Button
+            title="Add to cart"
+            onPress={handleAddToCart}
+            style={styles.addToCartButton}
+          />
+          <Button
+            title="Buy now"
+            onPress={() => console.log('Buy now')}
+            style={styles.buyNowButton}
+          />
+        </View>
       </ThemedView>
       <Modal visible={isImageViewerVisible} transparent={true}>
         <ImageViewer
@@ -149,17 +211,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  detailsContainer: {
-    padding: 16,
-  },
-  description: {
-    marginTop: 16,
-    fontSize: 16,
-  },
   buttonContainer: {
     padding: 16,
     borderTopWidth: 1,
     borderTopColor: '#eee',
+    backgroundColor: 'white',
+  },
+  actionButtons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  addToCartButton: {
+    flex: 1,
+    backgroundColor: '#000',
+    borderRadius: 8,
+  },
+  buyNowButton: {
+    flex: 1,
+    backgroundColor: '#0a7ea4',
+    borderRadius: 8,
   },
   imageViewerFooter: {
     position: 'absolute',

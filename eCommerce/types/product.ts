@@ -1,7 +1,15 @@
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  imageUrl?: string;
+}
+
 export interface Product {
   id: string;
   name: string;
   description: string;
+  category: Category;
   price: number;
   images: string[];
   variants: ProductVariant[];

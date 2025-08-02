@@ -10,6 +10,7 @@ import FilterChip from '@/components/molecules/FilterChip';
 import ProductCard from '@/components/molecules/ProductCard';
 import FilterModal from '@/components/organisms/FilterModal';
 import { getProducts } from '@/services/product';
+import { getMockSearchHistory, getMockRecommendations } from '@/services/mockData';
 import { Product } from '@/types/product';
 import { Colors } from '@/constants/Colors';
 
@@ -23,8 +24,8 @@ export default function SearchScreen() {
   const navigation = useNavigation();
   const { bottom , top} = useSafeAreaInsets();
 
-  const searchHistory = ['Socks', 'Red Dress', 'Sunglasses', 'Mustard Pants', '80-s Skirt'];
-  const recommendations = ['Skirt', 'Accessories', 'Black T-Shirt', 'Jeans', 'White Shoes'];
+  const searchHistory = getMockSearchHistory();
+  const recommendations = getMockRecommendations();
 
   React.useEffect(() => {
     const fetchProducts = async () => {

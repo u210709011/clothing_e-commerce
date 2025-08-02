@@ -10,6 +10,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   scheme: "clothing-store",
   userInterfaceStyle: "light",
   newArchEnabled: true,
+  extra: {
+    eas: {
+      projectId: "2793141b-cb9f-4cd8-9935-e3e340fca1be",
+    },
+  },
   ios: {
     supportsTablet: true,
   },

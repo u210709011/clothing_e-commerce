@@ -1,8 +1,8 @@
-import React from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Text } from '@/components/atoms/Text';
-import { Icon } from '@/components/atoms/Icon';
-import { Colors } from '@/constants/Colors';
+import React from "react";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { Text } from "@/components/atoms/Text";
+import { Icon } from "@/components/atoms/Icon";
+import { Colors } from "@/constants/Colors";
 
 interface SectionHeaderProps {
   title: string;
@@ -24,14 +24,18 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
       <Text style={styles.title}>{title}</Text>
       {showSeeAll && (
         <TouchableOpacity style={styles.seeAllButton} onPress={onSeeAllPress}>
-          <Text style={styles.seeAllText}>{navigateTo ? navigateTo : 'See All'}</Text>
-          
-          <Icon 
-            name="chevron-right" 
-            size={16} 
-            color={Colors.tint} 
-            style={styles.chevron}
-          />
+          <Text style={styles.seeAllText}>
+            {navigateTo ? navigateTo : "See All"}
+          </Text>
+
+          <View style={styles.chevronContainer}>
+            <Icon
+              name="chevron-right"
+              size={16}
+              color={Colors.tint}
+              style={styles.chevron}
+            />
+          </View>
         </TouchableOpacity>
       )}
     </View>
@@ -40,20 +44,20 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: Colors.text,
   },
   seeAllButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: Colors.tint,
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -63,10 +67,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingRight: 5,
     color: Colors.tabIconSelected,
-    fontWeight: '600',
+    fontWeight: "600",
+  },
+  chevronContainer: {
+    backgroundColor: Colors.tabIconSelected,
+    borderRadius: 45,
+    padding: 5,
   },
   chevron: {
-    marginLeft: 4,
   },
 });
 

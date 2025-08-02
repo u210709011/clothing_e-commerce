@@ -4,6 +4,7 @@ import { Text } from '@/components/atoms/Text';
 import { Icon } from '@/components/atoms/Icon';
 import Button from '@/components/atoms/Button';
 import FilterChip from '@/components/molecules/FilterChip';
+import { getMockFilterData } from '@/services/mockData';
 import { Colors } from '@/constants/Colors';
 
 interface FilterOption {
@@ -31,35 +32,8 @@ const FilterModal: React.FC<FilterModalProps> = ({
   const [priceRange, setPriceRange] = useState([10, 150]);
   const [sortBy, setSortBy] = useState('popular');
 
-  const categories = [
-    { id: 'dresses', name: 'Dresses', imageUrl: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=50&h=50&fit=crop' },
-    { id: 'pants', name: 'Pants', imageUrl: 'https://images.unsplash.com/photo-1542272454315-7ad85f8f6c6f?w=50&h=50&fit=crop' },
-    { id: 'shirts', name: 'Shirts', imageUrl: 'https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=50&h=50&fit=crop' },
-    { id: 'shorts', name: 'Shorts', imageUrl: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=50&h=50&fit=crop' },
-    { id: 'jackets', name: 'Jackets', imageUrl: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=50&h=50&fit=crop' },
-    { id: 'hoodies', name: 'Hoodies', imageUrl: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=50&h=50&fit=crop' },
-    { id: 'polo', name: 'Polo', imageUrl: 'https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=50&h=50&fit=crop' },
-    { id: 'tshirts', name: 'T-shirts', imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=50&h=50&fit=crop' },
-    { id: 'tunics', name: 'Tunics', imageUrl: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=50&h=50&fit=crop' },
-  ];
-
-  const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL'];
-  const colors = [
-    { id: 'blue', color: '#007AFF' },
-    { id: 'black', color: '#000000' },
-    { id: 'navy', color: '#001f3f' },
-    { id: 'red', color: '#FF3B30' },
-    { id: 'teal', color: '#5AC8FA' },
-    { id: 'orange', color: '#FF9500' },
-    { id: 'purple', color: '#8E44AD' },
-  ];
-
-  const sortOptions = [
-    { id: 'popular', name: 'Popular' },
-    { id: 'newest', name: 'Newest' },
-    { id: 'price-low', name: 'Price Low to High' },
-    { id: 'price-high', name: 'Price High to Low' },
-  ];
+  const filterData = getMockFilterData();
+  const { categories, sizes, colors, sortOptions } = filterData;
 
   const toggleCategory = (categoryId: string) => {
     setSelectedCategories(prev => 
@@ -229,7 +203,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                       <View style={styles.radioButtonInner} />
                     )}
                   </View>
-                  <Text style={styles.sortText}>{option.name}</Text>
+                  <Text style={styles.sortText}>{option.label}</Text>
                 </TouchableOpacity>
               ))}
             </View>

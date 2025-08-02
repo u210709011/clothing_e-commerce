@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     fontWeight: 'bold',
+    lineHeight: 24,
     color: 'white',
   },
   link: {
