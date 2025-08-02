@@ -18,24 +18,42 @@ interface FilterModalProps {
   visible: boolean;
   onClose: () => void;
   onApply: (filters: any) => void;
+  preSelectedCategory?: string;
+  initialFilters?: {
+    categories?: string[];
+    sizes?: string[];
+    colors?: string[];
+    priceRange?: [number, number];
+    sortBy?: string;
+  };
 }
 
 const FilterModal: React.FC<FilterModalProps> = ({
   visible,
   onClose,
   onApply,
+  preSelectedCategory,
+  initialFilters,
 }) => {
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(['dresses', 'pants', 'shirts']);
-  const [selectedSizes, setSelectedSizes] = useState<string[]>(['M']);
-  const [selectedColors, setSelectedColors] = useState<string[]>(['blue']);
-  const [priceRange, setPriceRange] = useState([10, 150]);
-  const [sortBy, setSortBy] = useState('popular');
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
+    if (preSelectedCategory) return [preSelectedCategory];
+    return initialFilters?.categories || [];
+  });
+  const [selectedSizes, setSelectedSizes] = useState<string[]>(initialFilters?.sizes || []);
+  const [selectedColors, setSelectedColors] = useState<string[]>(initialFilters?.colors || []);
+  const [priceRange, setPriceRange] = useState(initialFilters?.priceRange || [0, 500]);
+  const [sortBy, setSortBy] = useState(initialFilters?.sortBy || 'popular');
 
   const filterData = getMockFilterData();
   const { categories, sizes, colors, sortOptions } = filterData;
 
   const toggleCategory = (categoryId: string) => {
+    // Don't allow deselecting pre-selected category
+    if (categoryId === preSelectedCategory && selectedCategories.includes(categoryId)) {
+      return;
+    }
+    
     setSelectedCategories(prev => 
       prev.includes(categoryId)
         ? prev.filter(id => id !== categoryId)
@@ -71,10 +89,10 @@ const FilterModal: React.FC<FilterModalProps> = ({
   };
 
   const handleClear = () => {
-    setSelectedCategories([]);
+    setSelectedCategories(preSelectedCategory ? [preSelectedCategory] : []);
     setSelectedSizes([]);
     setSelectedColors([]);
-    setPriceRange([10, 150]);
+    setPriceRange([0, 500]);
     setSortBy('popular');
   };
 
@@ -86,8 +104,10 @@ const FilterModal: React.FC<FilterModalProps> = ({
           style={[
             styles.categoryItem,
             selectedCategories.includes(category.id) && styles.selectedCategoryItem,
+            category.id === preSelectedCategory && styles.preSelectedCategoryItem,
           ]}
           onPress={() => toggleCategory(category.id)}
+          disabled={category.id === preSelectedCategory && selectedCategories.includes(category.id)}
         >
           <View style={styles.categoryImageContainer}>
             <View style={[
@@ -284,6 +304,9 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   selectedCategoryItem: {},
+  preSelectedCategoryItem: {
+    opacity: 0.7,
+  },
   checkmark: {
     position: 'absolute',
     top: 0,

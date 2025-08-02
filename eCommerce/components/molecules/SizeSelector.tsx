@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     minWidth: 48,
     marginRight: 8,
     marginBottom: 8,
+    alignItems: 'center',
   },
 });
 
