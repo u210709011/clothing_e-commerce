@@ -17,7 +17,7 @@ export function Text({
         { color: Colors.text },
         type === 'default' ? styles.default : undefined,
         type === 'title' ? styles.title : undefined,
-        type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,
+        type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,  
         type === 'subtitle' ? styles.subtitle : undefined,
         type === 'link' ? styles.link : undefined,
         style,
@@ -29,28 +29,27 @@ export function Text({
 
 const styles = StyleSheet.create({
   default: {
-    fontSize: 18,
-    lineHeight: 30,
-
-    
+    fontSize: 14,
+    lineHeight: 32,
+    fontWeight: '400',
   },
   defaultSemiBold: {
-    fontSize: 18,
-    lineHeight: 30,
+    fontSize: 12,
+    lineHeight: 34,
     fontWeight: '600',
   },
   title: {
-    fontSize: 27,
+    fontSize: 16,
     fontWeight: 'bold',
     lineHeight: 32,
   },
   subtitle: {
-    fontSize: 22,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   link: {
-    lineHeight: 27,
-    fontSize: 16,
+    lineHeight: 20,
+    fontSize: 14,
     color: Colors.tint,
   },
 });

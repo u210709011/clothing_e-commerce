@@ -3,6 +3,7 @@ import { StyleSheet, View, FlatList, TouchableOpacity, ScrollView } from 'react-
 import { ThemedView } from '@/components/ThemedView';
 import { Text } from '@/components/atoms/Text';
 import { Icon } from '@/components/atoms/Icon';
+import { Image } from '@/components/atoms/Image';
 import SearchBar from '@/components/molecules/SearchBar';
 import FilterChip from '@/components/molecules/FilterChip';
 import ProductCard from '@/components/molecules/ProductCard';
@@ -12,10 +13,13 @@ import { Product } from '@/types/product';
 import { Colors } from '@/constants/Colors';
 import { router } from 'expo-router';
 import { getMockSearchHistory, getMockRecommendations } from '@/services/mockData';
+import SectionHeader from '../molecules/SectionHeader';
+import ProductListSection from './ProductListSection';
 
 interface ProductFilterViewProps {
   products: Product[];
   initialCategory?: string;
+  categoryTitle?: string;
   showSearchBar?: boolean;
   placeholder?: string;
   showBackButton?: boolean;
@@ -26,6 +30,7 @@ interface ProductFilterViewProps {
 const ProductFilterView: React.FC<ProductFilterViewProps> = ({
   products,
   initialCategory,
+  categoryTitle,
   showSearchBar = true,
   placeholder = "Search",
   showBackButton = false,
@@ -56,6 +61,7 @@ const ProductFilterView: React.FC<ProductFilterViewProps> = ({
   const handleApplyFilters = (filters: any) => {
     updateFilters({
       categories: filters.categories,
+      subcategories: filters.subcategories,
       sizes: filters.sizes,
       colors: filters.colors,
       priceRange: filters.priceRange,
@@ -105,50 +111,16 @@ const ProductFilterView: React.FC<ProductFilterViewProps> = ({
     </View>
   );
 
-  const renderSubcategoryFilter = () => {
-    if (!initialCategory) return null;
-    
-    const subcategories = [
-      { name: 'Dresses', icon: '👗' },
-      { name: 'Pants', icon: '👖' },
-      { name: 'Shirts', icon: '👔' },
-      { name: 'Shorts', icon: '🩳' },
-      { name: 'Jackets', icon: '🧥' },
-      { name: 'Hoodies', icon: '🧣' },
-      { name: 'Polo', icon: '👕' },
-      { name: 'T-Shirts', icon: '👕' },
-      { name: 'Tunics', icon: '👗' },
-    ];
 
-    return (
-      <View style={styles.subcategoryContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {subcategories.map((subcategory, index) => (
-            <TouchableOpacity key={index} style={styles.subcategoryItem}>
-              <View style={styles.subcategoryIcon}>
-                <Text style={styles.subcategoryEmoji}>{subcategory.icon}</Text>
-              </View>
-              <Text style={styles.subcategoryName}>{subcategory.name}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </View>
-    );
-  };
 
   const renderDiscoverSection = () => (
-    <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Discover</Text>
-      <View style={styles.discoverGrid}>
-        {products.slice(0, 6).map((item) => (
-          <ProductCard
-            key={item.id}
-            product={item}
-            onPress={() => handleProductPress(item)}
-            style={styles.discoverCard}
-          />
-        ))}
-      </View>
+    <View style={styles.discoverSection}>
+      <ProductListSection
+        title="Discover"
+        products={products}
+        onProductPress={handleProductPress}
+        showSeeAll={false}
+      />
     </View>
   );
 
@@ -242,7 +214,6 @@ const ProductFilterView: React.FC<ProductFilterViewProps> = ({
       
       {showResults ? (
         <View style={styles.resultsContainer}>
-          {renderSubcategoryFilter()}
           {renderResultsHeader()}
           {renderProductGrid()}
         </View>
@@ -261,6 +232,7 @@ const ProductFilterView: React.FC<ProductFilterViewProps> = ({
         preSelectedCategory={initialCategory}
         initialFilters={{
           categories: filterState.categories,
+          subcategories: filterState.subcategories,
           sizes: filterState.sizes,
           colors: filterState.colors,
           priceRange: filterState.priceRange,
@@ -296,7 +268,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   searchBarContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 0,
   },
   filterSection: {
     paddingHorizontal: 16,
@@ -342,14 +314,17 @@ const styles = StyleSheet.create({
   },
   productGrid: {
     paddingBottom: 100,
+    paddingHorizontal: 4,
   },
   productCard: {
     width: '48%',
-    marginBottom: 16,
+    marginHorizontal: 2,
+    marginBottom: 8,
   },
   listProductCard: {
     width: '100%',
-    marginBottom: 16,
+    marginHorizontal: 8,
+    marginBottom: 12,
   },
   emptyStateContainer: {
     flex: 1,
@@ -398,41 +373,11 @@ const styles = StyleSheet.create({
     color: Colors.text,
     fontWeight: '500',
   },
-  discoverGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 16,
-    justifyContent: 'space-between',
-  },
-  discoverCard: {
-    width: '48%',
-  },
-  subcategoryContainer: {
-    paddingHorizontal: 16,
+
+
+  discoverSection: {
     marginBottom: 16,
-  },
-  subcategoryItem: {
-    alignItems: 'center',
-    marginRight: 20,
-    width: 60,
-  },
-  subcategoryIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#F5F5F5',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  subcategoryEmoji: {
-    fontSize: 20,
-  },
-  subcategoryName: {
-    fontSize: 12,
-    color: Colors.text,
-    textAlign: 'center',
-    fontWeight: '500',
+    marginLeft: -16,
   },
 });
 

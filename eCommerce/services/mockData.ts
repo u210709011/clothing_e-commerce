@@ -6,6 +6,8 @@ export const mockProducts: Product[] = [
     id: '1',
     name: 'Classic Cotton Tee',
     price: 29.99,
+    originalPrice: 39.99,
+    discount: 25,
     description: 'A timeless classic made from premium cotton. Perfect for any occasion with its comfortable fit and versatile design.',
     category: {
       id: '1',
@@ -77,11 +79,13 @@ export const mockProducts: Product[] = [
     id: '3',
     name: 'Casual Sneakers',
     price: 79.99,
+    originalPrice: 99.99,
+    discount: 20,
     description: 'Comfortable and stylish sneakers perfect for everyday wear. Features cushioned sole and breathable upper.',
     category: {
-      id: '1',
-      name: 'Clothing',
-      slug: 'clothing',
+      id: '2',
+      name: 'Shoes',
+      slug: 'shoes',
       imageUrl: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=500&fit=crop'
     },
     images: [
@@ -111,9 +115,9 @@ export const mockProducts: Product[] = [
     price: 129.99,
     description: 'Elegant leather crossbody bag with adjustable strap and multiple compartments. Perfect for everyday use.',
     category: {
-      id: '1',
-      name: 'Clothing',
-      slug: 'clothing',
+      id: '3',
+      name: 'Bags',
+      slug: 'bags',
       imageUrl: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=500&fit=crop'
     },
     images: [
@@ -315,17 +319,55 @@ export const mockCategories = [
 export const mockSearchHistory = ['Socks', 'Red Dress', 'Sunglasses', 'Mustard Pants', '80-s Skirt'];
 export const mockRecommendations = ['Skirt', 'Accessories', 'Black T-Shirt', 'Jeans', 'White Shoes'];
 
-// FILTER DATA
+// HIERARCHICAL CATEGORIES FOR FILTERS
 export const mockFilterCategories = [
-  { id: 'dresses', name: 'Dresses', imageUrl: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=50&h=50&fit=crop' },
-  { id: 'pants', name: 'Pants', imageUrl: 'https://images.unsplash.com/photo-1542272454315-7ad85f8f6c6f?w=50&h=50&fit=crop' },
-  { id: 'shirts', name: 'Shirts', imageUrl: 'https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=50&h=50&fit=crop' },
-  { id: 'shorts', name: 'Shorts', imageUrl: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=50&h=50&fit=crop' },
-  { id: 'jackets', name: 'Jackets', imageUrl: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=50&h=50&fit=crop' },
-  { id: 'hoodies', name: 'Hoodies', imageUrl: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=50&h=50&fit=crop' },
-  { id: 'polo', name: 'Polo', imageUrl: 'https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=50&h=50&fit=crop' },
-  { id: 'tshirts', name: 'T-shirts', imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=50&h=50&fit=crop' },
-  { id: 'tunics', name: 'Tunics', imageUrl: 'https://images.unsplash.com/photo-1434389677669-e08b4c3ea5e2?w=50&h=50&fit=crop' }
+  {
+    id: 'clothing',
+    name: 'Clothing',
+    imageUrl: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=50&h=50&fit=crop',
+    subcategories: [
+      { id: 'dresses', name: 'Dresses', imageUrl: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=50&h=50&fit=crop' },
+      { id: 'pants', name: 'Pants', imageUrl: 'https://images.unsplash.com/photo-1542272454315-7ad85f8f6c6f?w=50&h=50&fit=crop' },
+      { id: 'shirts', name: 'Shirts', imageUrl: 'https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=50&h=50&fit=crop' },
+      { id: 'shorts', name: 'Shorts', imageUrl: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=50&h=50&fit=crop' },
+      { id: 'jackets', name: 'Jackets', imageUrl: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=50&h=50&fit=crop' },
+      { id: 'tshirts', name: 'T-shirts', imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=50&h=50&fit=crop' },
+    ]
+  },
+  {
+    id: 'shoes',
+    name: 'Shoes',
+    imageUrl: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=50&h=50&fit=crop',
+    subcategories: [
+      { id: 'sneakers', name: 'Sneakers', imageUrl: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=50&h=50&fit=crop' },
+      { id: 'boots', name: 'Boots', imageUrl: 'https://images.unsplash.com/photo-1605348532760-6753d2c43329?w=50&h=50&fit=crop' },
+      { id: 'sandals', name: 'Sandals', imageUrl: 'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=50&h=50&fit=crop' },
+      { id: 'heels', name: 'Heels', imageUrl: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=50&h=50&fit=crop' },
+      { id: 'athletic', name: 'Athletic', imageUrl: 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=50&h=50&fit=crop' },
+    ]
+  },
+  {
+    id: 'bags',
+    name: 'Bags',
+    imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=50&h=50&fit=crop',
+    subcategories: [
+      { id: 'handbags', name: 'Handbags', imageUrl: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=50&h=50&fit=crop' },
+      { id: 'backpacks', name: 'Backpacks', imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=50&h=50&fit=crop' },
+      { id: 'crossbody', name: 'Crossbody', imageUrl: 'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=50&h=50&fit=crop' },
+      { id: 'totes', name: 'Totes', imageUrl: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=50&h=50&fit=crop' },
+    ]
+  },
+  {
+    id: 'lingerie',
+    name: 'Lingerie',
+    imageUrl: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=50&h=50&fit=crop',
+    subcategories: [
+      { id: 'bras', name: 'Bras', imageUrl: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=50&h=50&fit=crop' },
+      { id: 'underwear', name: 'Underwear', imageUrl: 'https://images.unsplash.com/photo-1571513722275-4b41940f54b8?w=50&h=50&fit=crop' },
+      { id: 'sleepwear', name: 'Sleepwear', imageUrl: 'https://images.unsplash.com/photo-1571071854326-092d4f7d90b8?w=50&h=50&fit=crop' },
+      { id: 'loungewear', name: 'Loungewear', imageUrl: 'https://images.unsplash.com/photo-1434389677669-e08b4c3ea5e2?w=50&h=50&fit=crop' },
+    ]
+  }
 ];
 
 export const mockSizes = ['XS', 'S', 'M', 'L', 'XL', '2XL'];

@@ -3,6 +3,7 @@ import { Product } from '@/types/product';
 
 export interface FilterState {
   categories: string[];
+  subcategories: string[];
   sizes: string[];
   colors: string[];
   priceRange: [number, number];
@@ -13,12 +14,13 @@ export interface FilterState {
 
 export interface FilterLabels {
   label: string;
-  type: 'category' | 'size' | 'color' | 'price' | 'sort';
+  type: 'category' | 'subcategory' | 'size' | 'color' | 'price' | 'sort';
   value: any;
 }
 
 const DEFAULT_FILTER_STATE: FilterState = {
   categories: [],
+  subcategories: [],
   sizes: [],
   colors: [],
   priceRange: [0, 500],
@@ -35,11 +37,9 @@ export const useProductFilter = (products: Product[], initialCategory?: string) 
 
   const [activeFilters, setActiveFilters] = useState<FilterLabels[]>([]);
 
-  // Generate filter labels from current state
   const generateFilterLabels = useMemo(() => {
     const labels: FilterLabels[] = [];
     
-    // Categories (exclude pre-selected category from chips)
     filterState.categories.forEach(category => {
       if (category !== filterState.preSelectedCategory) {
         labels.push({
@@ -50,7 +50,14 @@ export const useProductFilter = (products: Product[], initialCategory?: string) 
       }
     });
 
-    // Sizes
+    filterState.subcategories.forEach(subcategory => {
+      labels.push({
+        label: `${subcategory}`,
+        type: 'subcategory',
+        value: subcategory
+      });
+    });
+
     if (filterState.sizes.length > 0) {
       if (filterState.sizes.length === 1) {
         labels.push({
@@ -67,7 +74,6 @@ export const useProductFilter = (products: Product[], initialCategory?: string) 
       }
     }
 
-    // Colors
     if (filterState.colors.length > 0) {
       if (filterState.colors.length === 1) {
         labels.push({
@@ -84,7 +90,6 @@ export const useProductFilter = (products: Product[], initialCategory?: string) 
       }
     }
 
-    // Price range (only show if not default)
     if (filterState.priceRange[0] !== 0 || filterState.priceRange[1] !== 500) {
       labels.push({
         label: `$${filterState.priceRange[0]} - $${filterState.priceRange[1]}`,
@@ -100,11 +105,9 @@ export const useProductFilter = (products: Product[], initialCategory?: string) 
     setActiveFilters(generateFilterLabels);
   }, [generateFilterLabels]);
 
-  // Filter and sort products
   const filteredProducts = useMemo(() => {
     let filtered = [...products];
 
-    // Text search
     if (filterState.searchQuery.trim()) {
       filtered = filtered.filter(product =>
         product.name.toLowerCase().includes(filterState.searchQuery.toLowerCase()) ||
@@ -112,7 +115,6 @@ export const useProductFilter = (products: Product[], initialCategory?: string) 
       );
     }
 
-    // Category filter
     if (filterState.categories.length > 0) {
       filtered = filtered.filter(product =>
         filterState.categories.some(category => 
@@ -122,7 +124,6 @@ export const useProductFilter = (products: Product[], initialCategory?: string) 
       );
     }
 
-    // Size filter
     if (filterState.sizes.length > 0) {
       filtered = filtered.filter(product =>
         product.variants.some(variant =>
@@ -134,7 +135,6 @@ export const useProductFilter = (products: Product[], initialCategory?: string) 
       );
     }
 
-    // Color filter
     if (filterState.colors.length > 0) {
       filtered = filtered.filter(product =>
         product.variants.some(variant =>
@@ -148,13 +148,11 @@ export const useProductFilter = (products: Product[], initialCategory?: string) 
       );
     }
 
-    // Price filter
     filtered = filtered.filter(product =>
       product.price >= filterState.priceRange[0] &&
       product.price <= filterState.priceRange[1]
     );
 
-    // Sorting
     switch (filterState.sortBy) {
       case 'price_low':
         filtered.sort((a, b) => a.price - b.price);
@@ -166,12 +164,10 @@ export const useProductFilter = (products: Product[], initialCategory?: string) 
         filtered.sort((a, b) => b.rating - a.rating);
         break;
       case 'newest':
-        // For now, use reverse order as "newest"
         filtered.reverse();
         break;
       case 'popular':
       default:
-        // Keep original order as "popular"
         break;
     }
 
@@ -188,6 +184,12 @@ export const useProductFilter = (products: Product[], initialCategory?: string) 
         setFilterState(prev => ({
           ...prev,
           categories: prev.categories.filter(cat => cat !== filterToRemove.value)
+        }));
+        break;
+      case 'subcategory':
+        setFilterState(prev => ({
+          ...prev,
+          subcategories: prev.subcategories.filter(sub => sub !== filterToRemove.value)
         }));
         break;
       case 'size':

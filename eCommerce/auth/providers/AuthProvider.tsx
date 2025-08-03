@@ -1,6 +1,7 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { User } from '@/types/auth';
+import { useWishlist } from '@/store/user';
 
 interface AuthContextType {
   user: User | null;
@@ -14,6 +15,19 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const auth = useAuth();
+  const { loadWishlist } = useWishlist();
+
+  useEffect(() => {
+    const initializeApp = async () => {
+      try {
+        await loadWishlist();
+      } catch (error) {
+        console.error('Error initializing app:', error);
+      }
+    };
+
+    initializeApp();
+  }, [loadWishlist]);
 
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 };

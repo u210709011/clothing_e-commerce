@@ -5,11 +5,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemedView } from '@/components/ThemedView';
 import { Icon } from '@/components/atoms/Icon';
 import ProductFilterView from '@/components/organisms/ProductFilterView';
-import { getProducts } from '@/services/product';
+import { ProductAPI } from '@/services/product';
 import { Product } from '@/types/product';
 import { Colors } from '@/constants/Colors';
 
-// Mock category data - in real app this would come from an API
 const getCategoryData = (slug: string) => {
   const categories: Record<string, any> = {
     clothing: {
@@ -61,48 +60,46 @@ export default function CategoryScreen() {
   }, [navigation]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchCategoryProducts = async () => {
       try {
-        const fetchedProducts = await getProducts();
+        setLoading(true);
+        const fetchedProducts = await ProductAPI.getProductsByCategory(slug as string);
         setProducts(fetchedProducts);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error('Error fetching category products:', error);
       } finally {
         setLoading(false);
       }
     };
     
-    fetchProducts();
-  }, []);
+    if (slug) {
+      fetchCategoryProducts();
+    }
+  }, [slug]);
 
-  // Filter products to only show ones in this category
-  const categoryProducts = products.filter(product => 
-    product.category.slug === slug || 
-    product.category.name.toLowerCase() === (slug as string)?.toLowerCase()
-  );
 
   if (loading) {
     return (
       <ThemedView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: top }}>
-        {/* You could add a loading spinner here */}
       </ThemedView>
     );
   }
 
   return (
     <ThemedView style={{ flex: 1, paddingTop: top }}>
-      <ProductFilterView
-        products={products}
-        initialCategory={slug as string}
-        showSearchBar={false}
-        placeholder={`Search in ${categoryData.title}`}
-        headerTitle={categoryData.title}
-        headerActions={
-          <TouchableOpacity style={{ padding: 4 }}>
-            <Icon name="more-vert" size={24} color={Colors.text} />
-          </TouchableOpacity>
-        }
-      />
+                <ProductFilterView
+            products={products}
+            initialCategory={slug as string}
+            categoryTitle={categoryData.title}
+            showSearchBar={false}
+            placeholder={`Search in ${categoryData.title}`}
+            headerTitle={categoryData.title}
+            headerActions={
+              <TouchableOpacity style={{ padding: 4 }}>
+                <Icon name="more-vert" size={24} color={Colors.text} />
+              </TouchableOpacity>
+            }
+          />
     </ThemedView>
   );
 }

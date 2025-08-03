@@ -5,10 +5,17 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Platform, Text, TextInput } from 'react-native';
 
 import { AuthProvider } from '@/auth/providers/AuthProvider';
 
+
+
+
 SplashScreen.preventAutoHideAsync();
+
+
+
 
 export default function RootLayout() {
   const [loaded] = useFonts({

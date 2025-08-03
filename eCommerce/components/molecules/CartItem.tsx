@@ -1,10 +1,11 @@
-import React from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Text } from '@/components/atoms/Text';
-import { Image } from '@/components/atoms/Image';
-import { Icon } from '@/components/atoms/Icon';
-import QuantitySelector from './QuantitySelector';
-import { CartItem as CartItemType } from '@/types/cart';
+import React from "react";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { Text } from "@/components/atoms/Text";
+import { Image } from "@/components/atoms/Image";
+import { Icon } from "@/components/atoms/Icon";
+import QuantitySelector from "./QuantitySelector";
+import { CartItem as CartItemType } from "@/types/cart";
+import { router } from "expo-router";
 
 interface CartItemProps {
   item: CartItemType;
@@ -31,56 +32,58 @@ const CartItem: React.FC<CartItemProps> = ({
 
   const formatVariants = () => {
     if (Object.keys(item.selectedVariants).length === 0) return null;
-    
+
     return Object.entries(item.selectedVariants)
       .map(([, value]) => value)
-      .join(' / ');
+      .join(" / ");
   };
 
   return (
-    <View style={styles.container}>
-      <Image 
-        source={{ uri: item.product.images[0] }} 
-        style={styles.image}
-      />
-      
-      <View style={styles.infoContainer}>
-        <View style={styles.details}>
+    <TouchableOpacity
+      onPress={() => router.push(`/product/${item.product.id}`)}
+    >
+      <View style={styles.container}>
+        <Image source={{ uri: item.product.images[0] }} style={styles.image} />
+
+        <View style={styles.infoContainer}>
+          <View style={styles.details}>
             <Text style={styles.name} numberOfLines={2}>
               {item.product.name}
             </Text>
             {formatVariants() && (
-              <Text style={styles.variants}>
-                {formatVariants()}
-              </Text>
+              <Text style={styles.variants}>{formatVariants()}</Text>
             )}
             <Text style={styles.price}>
               ${(item.product.price * item.quantity).toFixed(2)}
             </Text>
-        </View>
+          </View>
 
-        <View style={styles.actions}>
+          <View style={styles.actions}>
             <QuantitySelector
-                quantity={item.quantity}
-                onIncrement={handleIncrement}
-                onDecrement={handleDecrement}
+              quantity={item.quantity}
+              onIncrement={handleIncrement}
+              onDecrement={handleDecrement}
             />
-            <TouchableOpacity onPress={handleRemove} style={styles.removeButton}>
-                <Icon name="delete" size={20} color="#999" />
+            <TouchableOpacity
+              onPress={handleRemove}
+              style={styles.removeButton}
+            >
+              <Icon name="delete" size={20} color="#999" />
             </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-    backgroundColor: 'white',
+    borderBottomColor: "#f0f0f0",
+    backgroundColor: "white",
   },
   image: {
     width: 90,
@@ -90,30 +93,30 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   details: {
     flex: 1,
   },
   name: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 4,
   },
   variants: {
     fontSize: 14,
-    color: '#666',
+    color: "#666",
     marginBottom: 8,
   },
   price: {
     fontSize: 16,
-    fontWeight: 'bold',
-    marginTop: 'auto',
+    fontWeight: "bold",
+    marginTop: "auto",
   },
   actions: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginTop: 8,
   },
   removeButton: {

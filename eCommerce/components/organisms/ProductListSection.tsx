@@ -5,7 +5,7 @@ import ProductCard from '@/components/molecules/ProductCard';
 import { Product } from '@/types/product';
 
 interface ProductListSectionProps {
-  title: string;
+  title?: string;
   products: Product[];
   onProductPress: (product: Product) => void;
   onSeeAllPress?: () => void;
@@ -21,12 +21,13 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
 }) => {
   return (
     <View style={styles.container}>
+      {title && (
       <SectionHeader
         title={title}
         showSeeAll={showSeeAll}
         onSeeAllPress={onSeeAllPress}
       />
-      
+      )}
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}

@@ -45,10 +45,10 @@ const styles = StyleSheet.create({
     height: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 4,
   },
   badgeText: {
     color: 'white',
+    marginTop: -5,
     fontSize: 12,
     fontWeight: 'bold',
   },

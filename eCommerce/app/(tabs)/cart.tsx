@@ -8,7 +8,7 @@ import { Icon } from '@/components/atoms/Icon';
 import CartItem from '@/components/molecules/CartItem';
 import { useCart } from '@/hooks/useCart';
 import { Colors } from '@/constants/Colors';
-import { useNavigation } from 'expo-router';
+import { router, useNavigation } from 'expo-router';
 
 export default function CartScreen() {
   const { user } = useAuthContext();
@@ -51,7 +51,7 @@ export default function CartScreen() {
         <Text style={styles.emptyText}>
           Looks like you haven't added anything to your cart yet.
         </Text>
-        <Button title="Start Shopping" onPress={() => {  }} />
+        <Button title="Start Shopping" onPress={() => { router.push('/') }} />
       </ThemedView>
     );
   }

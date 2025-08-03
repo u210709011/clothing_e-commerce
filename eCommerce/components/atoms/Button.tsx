@@ -10,16 +10,18 @@ import { Colors } from '@/constants/Colors';
 
 interface ButtonProps {
   title?: string;
+  color?: string;
   onPress?: () => void;
   style?: ViewStyle;
   textStyle?: TextStyle;
-  type?: 'default' | 'link' | 'chip' | 'outline';
+  type?: 'default' | 'link' | 'chip' | 'outline' ;
   selected?: boolean;
   children?: React.ReactNode;
 }
 
 const Button: React.FC<ButtonProps> = ({
   title,
+  color,
   onPress,
   style,
   textStyle,
@@ -33,6 +35,7 @@ const Button: React.FC<ButtonProps> = ({
     <TouchableOpacity
       style={[
         type === 'default' && styles.button,
+        color && { backgroundColor: color },
         isChip && styles.chip,
         isChip && selected && styles.chipSelected,
         isOutline && styles.outline,
