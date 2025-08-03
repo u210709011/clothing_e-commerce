@@ -243,8 +243,8 @@ export const mockCategories = [
     imageUrls: [
       "https://images.unsplash.com/photo-1445205170230-053b83016050?w=100&h=100&fit=crop",
       "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=100&h=100&fit=crop",
-      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=100&h=100&fit=crop",
-      "https://images.unsplash.com/photo-1434389677669-e08b4c3ea5e2?w=100&h=100&fit=crop"
+      "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1562157873-818bc0726f68?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     backgroundColor: "#E8D5F2",
   },
@@ -280,10 +280,7 @@ export const mockCategories = [
     subtitle: "Comfort first",
     count: 218,
     imageUrls: [
-      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=100&h=100&fit=crop",
-      "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=100&h=100&fit=crop",
-      "https://images.unsplash.com/photo-1434389677669-e08b4c3ea5e2?w=100&h=100&fit=crop",
-      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=100&h=100&fit=crop"
+
     ],
     backgroundColor: "#F0E6FF",
   },
@@ -296,7 +293,7 @@ export const mockCategories = [
       "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100&h=100&fit=crop",
       "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=100&h=100&fit=crop",
       "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=100&h=100&fit=crop",
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100&h=100&fit=crop"
+      "https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     backgroundColor: "#E8F5E8",
   },
@@ -306,10 +303,10 @@ export const mockCategories = [
     subtitle: "Cozy comfort",
     count: 342,
     imageUrls: [
-      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=100&h=100&fit=crop",
-      "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=100&h=100&fit=crop",
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=100&h=100&fit=crop",
-      "https://images.unsplash.com/photo-1434389677669-e08b4c3ea5e2?w=100&h=100&fit=crop"
+      "https://images.unsplash.com/photo-1517942420142-6a296f9ee4b1?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1579572331145-5e53b299c64e?q=80&w=680&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1680292783974-a9a336c10366?q=80&w=694&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     backgroundColor: "#FFE8E8",
   }
@@ -369,7 +366,7 @@ export const mockFilterCategories = [
     ]
   }
 ];
-
+// SIZES AND COLORS
 export const mockSizes = ['XS', 'S', 'M', 'L', 'XL', '2XL'];
 export const mockColors = [
   { id: 'blue', color: '#007AFF' },
@@ -384,6 +381,7 @@ export const mockColors = [
   { id: 'white', color: '#FFFFFF' }
 ];
 
+// SORT OPTIONS
 export const mockSortOptions = [
   { id: 'popular', label: 'Popular' },
   { id: 'newest', label: 'Newest' },
@@ -397,6 +395,7 @@ export const mockSpecifications = [
   { label: 'Origin', value: 'EU' }
 ];
 
+// DELIVERY OPTIONS
 export const mockDeliveryOptions = [
   { type: 'Standard', duration: '5-7 days', price: '$3.00' },
   { type: 'Express', duration: '1-2 days', price: '$12.00' }
@@ -404,8 +403,11 @@ export const mockDeliveryOptions = [
 
 // UTILITY FUNCTIONS
 export const getMockProducts = () => mockProducts;
+
 export const getMockProductById = (id: string) => mockProducts.find(p => p.id === id);
+
 export const getMockProductsByCategory = (categorySlug: string) => mockProducts.filter(p => p.category.slug === categorySlug);
+
 export const getMockRelatedProducts = (productId: string, count: number = 4) => {
   const product = getMockProductById(productId);
   if (!product) return [];
@@ -417,14 +419,22 @@ export const getMockRelatedProducts = (productId: string, count: number = 4) => 
 };
 
 export const getMockPromoBanners = () => mockPromoBanners;
+
 export const getMockCategories = () => mockCategories;
+
 export const getMockSearchHistory = () => mockSearchHistory;
+
 export const getMockRecommendations = () => mockRecommendations;
+
 export const getMockFilterData = () => ({
   categories: mockFilterCategories,
   sizes: mockSizes,
   colors: mockColors,
   sortOptions: mockSortOptions
 });
+
 export const getMockSpecifications = () => mockSpecifications;
+
 export const getMockDeliveryOptions = () => mockDeliveryOptions;
+
+export const getFlashSaleEndTime = () => new Date(Date.now() + 24 * 60 * 60 * 1000);

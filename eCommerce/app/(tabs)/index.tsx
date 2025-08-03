@@ -14,7 +14,7 @@ import CategoriesSection from "@/components/organisms/CategoriesSection";
 import ProductListSection from "@/components/organisms/ProductListSection";
 
 import { getProducts } from "@/services/product";
-import { getMockPromoBanners, getMockCategories } from "@/services/mockData";
+import { getMockPromoBanners, getMockCategories, getFlashSaleEndTime } from "@/services/mockData";
 import { Product } from "@/types/product";
 import { Colors } from "@/constants/Colors";
 
@@ -52,8 +52,7 @@ export default function HomeScreen() {
 
   const promoBanners = getMockPromoBanners();
   const categories = getMockCategories();
-
-  const flashSaleEndTime = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  const flashSaleEndTime = getFlashSaleEndTime();
 
   const handleProductPress = (product: Product) => {
     router.push(`/product/${product.id}`);
@@ -65,7 +64,7 @@ export default function HomeScreen() {
 
   const handleSeeAllPress = (section: string) => {
     console.log(`Navigate to see all ${section}`);
-    // TODO: Navigate to se all
+    // TODO: Actual navigation to see all
   };
 
   const renderPromoBanner = ({ item }: { item: any }) => (
