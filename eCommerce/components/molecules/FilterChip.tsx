@@ -56,8 +56,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   selectedContainer: {
-    backgroundColor: Colors.tint,
-    borderColor: Colors.tint,
+    backgroundColor: Colors.tabIconSelected,
   },
   label: {
     fontSize: 14,

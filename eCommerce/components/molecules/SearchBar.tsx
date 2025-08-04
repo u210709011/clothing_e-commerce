@@ -59,14 +59,14 @@ const SearchBar: React.FC<SearchBarProps> = ({
         />
         {onSearchPress && (
           <TouchableOpacity onPress={onSearchPress} style={styles.searchButton}>
-            <Icon name="search" size={20} color={Colors.tint} />
+            <Icon name="search" size={20} color={Colors.tabIconSelected} />
           </TouchableOpacity>
         )}
       </TouchableOpacity>
       
       {showFilter && (
         <TouchableOpacity style={styles.filterButton} onPress={onFilterPress}>
-          <Icon name="tune" size={20} color={Colors.tint} />
+          <Icon name="tune" size={20} color={Colors.tabIconSelected} />
         </TouchableOpacity>
       )}
     </View>
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderWidth: 2,
-    borderColor: Colors.tint,
+    borderColor: Colors.tabIconSelected,
     minHeight: 36, 
     height: 36, 
     width: '100%',
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 16,
+    marginBottom: -3,
     color: Colors.text,
     paddingVertical: 0,
     paddingHorizontal: 0,

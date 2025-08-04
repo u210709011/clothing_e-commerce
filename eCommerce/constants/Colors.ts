@@ -6,7 +6,7 @@ export const Colors = {
   icon: '#687076',
   error: '#FF0000',
   tabIconDefault: '#687076',
-  tabIconSelected: '#0a7ea4',
+  tabIconSelected: '#FCB106',
   textSecondary: '#687076',
   border: '#E1E8ED',
 };

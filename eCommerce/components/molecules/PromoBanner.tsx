@@ -41,10 +41,10 @@ const PromoBanner: React.FC<PromoBannerProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: width - 32,
+    width: width - 60,
     height: 120,
     borderRadius: 12,
-    marginHorizontal: 16,
+    marginHorizontal: 10,
     marginVertical: 6,
     overflow: 'hidden',
   },

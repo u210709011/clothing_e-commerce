@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, ViewStyle, View } from 'react-native';
 import { Product } from '@/types/product';
 import { useRouter } from 'expo-router';
@@ -18,11 +17,8 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product, onPress, style }) => {
   const router = useRouter();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
-  const [isWishlisted, setIsWishlisted] = useState(false);
 
-  useEffect(() => {
-    setIsWishlisted(isInWishlist(product.id));
-  }, [product.id, isInWishlist]);
+
 
   const handlePress = () => {
     if (onPress) {
@@ -36,12 +32,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onPress, style }) =>
     e.stopPropagation();
     
     try {
-      if (isWishlisted) {
+      if (isInWishlist(product.id)) {
         await removeFromWishlist(product.id);
       } else {
         await addToWishlist(product);
       }
-      setIsWishlisted(!isWishlisted);
     } catch (error) {
       console.error('Error updating wishlist:', error);
     }
@@ -56,9 +51,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onPress, style }) =>
         <Image source={{ uri: product.images[0] }} style={styles.image} />
         <TouchableOpacity style={styles.wishlistButton} onPress={handleWishlistPress}>
           <Icon 
-            name={isWishlisted ? "favorite" : "favorite-border"} 
+            name={isInWishlist(product.id) ? "favorite" : "favorite-border"} 
             size={18} 
-            color={isWishlisted ? Colors.error : Colors.textSecondary} 
+            color={isInWishlist(product.id) ? Colors.error : Colors.textSecondary} 
           />
         </TouchableOpacity>
         {product.discount && (

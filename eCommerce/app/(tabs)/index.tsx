@@ -18,6 +18,7 @@ import { getMockPromoBanners, getMockCategories, getFlashSaleEndTime } from "@/s
 import { Product } from "@/types/product";
 import { Colors } from "@/constants/Colors";
 
+
 export default function HomeScreen() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -51,6 +52,7 @@ export default function HomeScreen() {
   }, []);
 
   const promoBanners = getMockPromoBanners();
+
   const categories = getMockCategories();
   const flashSaleEndTime = getFlashSaleEndTime();
 
@@ -81,7 +83,7 @@ export default function HomeScreen() {
   if (loading) {
     return (
       <ThemedView style={styles.centered}>
-        <ActivityIndicator size="large" color={Colors.tint} />
+        <ActivityIndicator size="large" color={Colors.tabIconSelected} />
       </ThemedView>
     );
   }
@@ -97,15 +99,16 @@ export default function HomeScreen() {
           horizontal
           showsHorizontalScrollIndicator={false}
           pagingEnabled
-          snapToInterval={320}
+          snapToAlignment="center"
           decelerationRate="fast"
           contentContainerStyle={styles.bannerContainer}
         >
           {promoBanners.map((item) => (
-            <View key={item.id}>
+            <View key={item.id} style= {styles.promoBanner}>
               {renderPromoBanner({ item })}
             </View>
           ))}
+
         </ScrollView>
 
         <CategoriesSection
@@ -170,6 +173,9 @@ const styles = StyleSheet.create({
   },
   bannerContainer: {
     paddingTop: 10,
+    paddingHorizontal: 16
+  },
+  promoBanner: {
   },
   headerRight: {
     paddingRight: 25,

@@ -1,10 +1,9 @@
 import { Tabs } from "expo-router";
 import React from "react";
-import {  View } from "react-native";
+import { TouchableWithoutFeedback, View } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import CartIconWithBadge from "@/components/molecules/CartIconWithBadge";
 import { Colors } from "@/constants/Colors";
-
 
 
 export default function TabLayout() {
@@ -13,6 +12,18 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: true,
         headerShadowVisible: false,
+        tabBarButton: (props) => {
+          const viewRef = props.ref as React.Ref<View>;
+          return (
+            <View ref={viewRef} style= {{paddingHorizontal: 30, paddingTop:5}}>
+              <TouchableWithoutFeedback onPress={props.onPress}>
+                <View>
+                  {props.children}
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          )
+        },
         tabBarShowLabel: false,
         tabBarActiveTintColor: Colors.tabIconSelected,
         tabBarInactiveTintColor: Colors.tabIconDefault,

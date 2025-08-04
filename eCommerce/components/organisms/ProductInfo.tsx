@@ -28,7 +28,9 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
       <View style={styles.header}>
         <View style={styles.priceContainer}>
           <Text style={styles.price}>${product.price.toFixed(2)}</Text>
-          <Text style={styles.originalPrice}>$25.00</Text>
+          {product.originalPrice && product.originalPrice > product.price && (
+          <Text style={styles.originalPrice}>${product.originalPrice.toFixed(2)}</Text>
+          )}
         </View>
         <TouchableOpacity onPress={onWishlistToggle} style={styles.wishlistButton}>
           <Icon

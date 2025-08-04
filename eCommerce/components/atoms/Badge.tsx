@@ -31,7 +31,7 @@ const Badge: React.FC<BadgeProps> = ({
       case 'danger':
         return { backgroundColor: '#dc3545' };
       default:
-        return { backgroundColor: Colors.tint };
+        return { backgroundColor: Colors.tabIconDefault };
     }
   };
 

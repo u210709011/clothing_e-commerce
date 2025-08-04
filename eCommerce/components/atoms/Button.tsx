@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   link: {
-    color: Colors.tint,
+    color: Colors.tabIconDefault,
     fontWeight: 'normal',
   },
   chip: {
@@ -106,10 +106,10 @@ const styles = StyleSheet.create({
   outline: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: Colors.tint,
+    borderColor: Colors.tabIconDefault,
   },
   outlineText: {
-    color: Colors.tint,
+    color: Colors.tabIconDefault,
   },
 });
 

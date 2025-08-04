@@ -26,7 +26,7 @@ const ProductSpecs: React.FC<ProductSpecsProps> = ({ onSizeGuidePress }) => {
         
         <TouchableOpacity onPress={onSizeGuidePress} style={styles.sizeGuideButton}>
           <Text style={styles.sizeGuideText}>Size guide</Text>
-          <Icon name="chevron-right" size={16} color={Colors.tint} />
+          <Icon name="chevron-right" size={16} color={Colors.tabIconSelected} />
         </TouchableOpacity>
       </View>
 
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 12,
     paddingHorizontal: 16,
-    backgroundColor: Colors.tint,
+    backgroundColor: Colors.tabIconSelected,
     borderRadius: 8,
     marginTop: 12,
   },

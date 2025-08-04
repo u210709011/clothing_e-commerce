@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -10,7 +10,7 @@ import { Text } from "@/components/atoms/Text";
 import { Icon } from "@/components/atoms/Icon";
 import Button from "@/components/atoms/Button";
 import FilterChip from "@/components/molecules/FilterChip";
-import { getMockFilterData } from "@/services/mockData";
+import { getMockFilterData, mockClothingSizes, mockShoeSizes } from "@/services/mockData";
 import { Colors } from "@/constants/Colors";
 
 interface FilterOption {
@@ -63,6 +63,22 @@ const FilterModal: React.FC<FilterModalProps> = ({
     initialFilters?.priceRange || [0, 500]
   );
   const [sortBy, setSortBy] = useState(initialFilters?.sortBy || "popular");
+  const [sizeType, setSizeType] = useState<'clothing' | 'shoes'>('clothing');
+
+  // Auto-detect size type based on selected categories
+  useEffect(() => {
+    if (selectedCategories.length > 0) {
+      const hasShoes = selectedCategories.some(cat => cat === 'shoes');
+      const hasClothing = selectedCategories.some(cat => cat === 'clothing');
+      
+      if (hasShoes && !hasClothing) {
+        setSizeType('shoes');
+      } else if (hasClothing && !hasShoes) {
+        setSizeType('clothing');
+      }
+      // If both or neither are selected, keep current size type
+    }
+  }, [selectedCategories]);
 
   const filterData = getMockFilterData();
   const { categories, sizes, colors, sortOptions } = filterData;
@@ -112,6 +128,12 @@ const FilterModal: React.FC<FilterModalProps> = ({
     );
   };
 
+  const toggleSizeType = (type: 'clothing' | 'shoes') => {
+    setSizeType(type);
+    // Clear selected sizes when switching types
+    setSelectedSizes([]);
+  };
+
   const handleApply = () => {
     onApply({
       categories: selectedCategories,
@@ -131,6 +153,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
     setSelectedColors([]);
     setPriceRange([0, 500]);
     setSortBy("popular");
+    setSizeType('clothing'); // Reset size type
   };
 
   const renderAccordionCategories = () => (
@@ -163,7 +186,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                     styles.categoryIndicator,
                     {
                       backgroundColor: selectedCategories.includes(category.id)
-                        ? Colors.tint
+                        ? Colors.tabIconSelected
                         : "#E0E0E0",
                     },
                   ]}
@@ -213,7 +236,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                             backgroundColor: selectedSubcategories.includes(
                               subcategory.id
                             )
-                              ? Colors.tint
+                              ? Colors.tabIconSelected
                               : "#F0F0F0",
                           },
                         ]}
@@ -229,7 +252,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                       </Text>
                     </View>
                     {selectedSubcategories.includes(subcategory.id) && (
-                      <Icon name="check" size={16} color={Colors.tint} />
+                      <Icon name="check" size={16} color={Colors.tabIconSelected} />
                     )}
                   </TouchableOpacity>
                 ))}
@@ -262,19 +285,37 @@ const FilterModal: React.FC<FilterModalProps> = ({
               <Text style={styles.sectionTitle}>Size</Text>
               <View style={styles.sizeToggle}>
                 <TouchableOpacity
-                  style={[styles.toggleButton, styles.activeToggle]}
+                  style={[
+                    styles.toggleButton,
+                    sizeType === 'clothing' && styles.activeToggle
+                  ]}
+                  onPress={() => toggleSizeType('clothing')}
                 >
-                  <Text style={[styles.toggleText, styles.activeToggleText]}>
+                  <Text style={[
+                    styles.toggleText,
+                    sizeType === 'clothing' && styles.activeToggleText
+                  ]}>
                     Clothes
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.toggleButton}>
-                  <Text style={styles.toggleText}>Shoes</Text>
+                <TouchableOpacity 
+                  style={[
+                    styles.toggleButton,
+                    sizeType === 'shoes' && styles.activeToggle
+                  ]}
+                  onPress={() => toggleSizeType('shoes')}
+                >
+                  <Text style={[
+                    styles.toggleText,
+                    sizeType === 'shoes' && styles.activeToggleText
+                  ]}>
+                    Shoes
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
             <View style={styles.sizeGrid}>
-              {sizes.map((size) => (
+              {(sizeType === 'clothing' ? mockClothingSizes : mockShoeSizes).map((size) => (
                 <TouchableOpacity
                   key={size}
                   style={[
@@ -451,10 +492,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   selectedCategoryHeader: {
-    backgroundColor: Colors.tint + "08",
+    backgroundColor: Colors.tabIconSelected + "08",
   },
   preSelectedCategoryHeader: {
-    backgroundColor: Colors.tint + "15",
+    backgroundColor: Colors.tabIconSelected + "15",
   },
   categoryHeaderContent: {
     flexDirection: "row",
@@ -479,7 +520,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   selectedCategoryHeaderText: {
-    color: Colors.tint,
+    color: Colors.tabIconSelected,
   },
   subcategoriesContainer: {
     paddingLeft: 8,
@@ -497,7 +538,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   selectedSubcategoryItem: {
-    backgroundColor: Colors.tint + "08",
+    backgroundColor: Colors.tabIconSelected + "08",
   },
   subcategoryContent: {
     flexDirection: "row",
@@ -516,14 +557,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   selectedSubcategoryText: {
-    color: Colors.tint,
+    color: Colors.tabIconSelected,
     fontWeight: "500",
   },
   checkmark: {
     position: "absolute",
     top: 0,
     right: 0,
-    backgroundColor: Colors.tint,
+    backgroundColor: Colors.tabIconSelected,
     borderRadius: 10,
     width: 20,
     height: 20,
@@ -547,14 +588,14 @@ const styles = StyleSheet.create({
     borderRadius: 18,
   },
   activeToggle: {
-    backgroundColor: Colors.tint,
+    backgroundColor: Colors.tabIconSelected,
   },
   toggleText: {
     fontSize: 14,
     color: Colors.tabIconDefault,
   },
   activeToggleText: {
-    color: Colors.tabIconSelected,
+    color: Colors.text + "55",
   },
   sizeGrid: {
     flexDirection: "row",
@@ -572,8 +613,8 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
   },
   selectedSizeItem: {
-    backgroundColor: Colors.tint,
-    borderColor: Colors.tint,
+    backgroundColor: Colors.tabIconSelected,
+    borderColor: Colors.tabIconSelected,
   },
   sizeText: {
     fontSize: 14,
@@ -623,7 +664,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     bottom: 0,
-    backgroundColor: Colors.tint,
+    backgroundColor: Colors.tabIconSelected,
     borderRadius: 2,
   },
   sortGrid: {
@@ -645,13 +686,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   selectedRadioButton: {
-    borderColor: Colors.tint,
+    borderColor: Colors.tabIconSelected,
   },
   radioButtonInner: {
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: Colors.tint,
+    backgroundColor: Colors.tabIconSelected,
   },
   sortText: {
     fontSize: 16,
@@ -665,10 +706,10 @@ const styles = StyleSheet.create({
     borderTopColor: Colors.border,
   },
   clearButton: {
-    flex: 1,
+    width: '33%'
   },
   applyButton: {
-    flex: 1,
+    flex:1
   },
 });
 

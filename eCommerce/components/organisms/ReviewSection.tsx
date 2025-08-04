@@ -26,7 +26,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({
         <Text style={styles.sectionTitle}>Rating & Reviews</Text>
         <TouchableOpacity onPress={onViewAllReviews} style={styles.viewAllButton}>
           <Text style={styles.viewAllText}>View All Reviews</Text>
-          <Icon name="chevron-right" size={16} color={Colors.tint} />
+          <Icon name="chevron-right" size={16} color={Colors.tabIconSelected} />
         </TouchableOpacity>
       </View>
 
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   viewAllButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.tint,
+    backgroundColor: Colors.tabIconSelected,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,

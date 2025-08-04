@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
   },
   clearAllText: {
     fontSize: 14,
-    color: Colors.tint,
+    color: Colors.tabIconSelected,
     fontWeight: '500',
   },
   activeFiltersContainer: {

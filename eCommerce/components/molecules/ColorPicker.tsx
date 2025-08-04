@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   selectedColor: {
-    borderColor: Colors.tint,
+    borderColor: Colors.tabIconSelected,
     borderWidth: 3,
   },
   whiteColorBorder: {

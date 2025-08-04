@@ -50,6 +50,6 @@ const styles = StyleSheet.create({
   link: {
     lineHeight: 20,
     fontSize: 14,
-    color: Colors.tint,
+    color: Colors.tabIconDefault,
   },
 });

@@ -32,7 +32,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
             <Icon
               name="chevron-right"
               size={16}
-              color={Colors.tint}
+              color={Colors.background}
               style={styles.chevron}
             />
           </View>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   seeAllButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: Colors.tint,
+    backgroundColor: Colors.background,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,

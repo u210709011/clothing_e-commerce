@@ -106,7 +106,7 @@ export default function CategoryScreen() {
         products={products}
         initialCategory={slug as string}
         categoryTitle={categoryData.title}
-        showSearchBar={false}
+        showSearchBar={true}
         placeholder={`Search in ${categoryData.title}`}
         headerTitle={categoryData.title}
         headerActions={
