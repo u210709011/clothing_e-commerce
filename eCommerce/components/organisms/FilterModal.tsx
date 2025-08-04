@@ -25,6 +25,7 @@ interface FilterModalProps {
   onClose: () => void;
   onApply: (filters: any) => void;
   preSelectedCategory?: string;
+  isCategoryScreen?: boolean;
   initialFilters?: {
     categories?: string[];
     subcategories?: string[];
@@ -40,6 +41,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
   onClose,
   onApply,
   preSelectedCategory,
+  isCategoryScreen = false,
   initialFilters,
 }) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
@@ -65,7 +67,6 @@ const FilterModal: React.FC<FilterModalProps> = ({
   const [sortBy, setSortBy] = useState(initialFilters?.sortBy || "popular");
   const [sizeType, setSizeType] = useState<'clothing' | 'shoes'>('clothing');
 
-  // Auto-detect size type based on selected categories
   useEffect(() => {
     if (selectedCategories.length > 0) {
       const hasShoes = selectedCategories.some(cat => cat === 'shoes');
@@ -76,7 +77,6 @@ const FilterModal: React.FC<FilterModalProps> = ({
       } else if (hasClothing && !hasShoes) {
         setSizeType('clothing');
       }
-      // If both or neither are selected, keep current size type
     }
   }, [selectedCategories]);
 
@@ -130,7 +130,6 @@ const FilterModal: React.FC<FilterModalProps> = ({
 
   const toggleSizeType = (type: 'clothing' | 'shoes') => {
     setSizeType(type);
-    // Clear selected sizes when switching types
     setSelectedSizes([]);
   };
 
@@ -153,32 +152,80 @@ const FilterModal: React.FC<FilterModalProps> = ({
     setSelectedColors([]);
     setPriceRange([0, 500]);
     setSortBy("popular");
-    setSizeType('clothing'); // Reset size type
+    setSizeType('clothing'); 
   };
 
-  const renderAccordionCategories = () => (
-    <View style={styles.accordionContainer}>
-      {categories.map((category: any) => (
-        <View key={category.id} style={styles.accordionItem}>
-          <TouchableOpacity
-            style={[
-              styles.categoryHeader,
-              selectedCategories.includes(category.id) &&
-                styles.selectedCategoryHeader,
-              category.id === preSelectedCategory &&
-                styles.preSelectedCategoryHeader,
-            ]}
-            onPress={() => {
-              toggleCategory(category.id);
-              if (category.subcategories?.length > 0) {
-                toggleCategoryExpansion(category.id);
+  const renderAccordionCategories = () => {
+    if (isCategoryScreen) {
+      const currentCategory = categories.find((cat: any) => cat.id === preSelectedCategory);
+      if (!currentCategory) return null;
+      
+      return (
+        <View style={styles.accordionContainer}>
+          <Text style={styles.sectionTitle}>Subcategories</Text>
+          <View style={styles.subcategoriesContainer}>
+            {currentCategory.subcategories?.map((subcategory: any) => (
+              <TouchableOpacity
+                key={subcategory.id}
+                style={[
+                  styles.subcategoryItem,
+                  selectedSubcategories.includes(subcategory.id) &&
+                    styles.selectedSubcategoryItem,
+                ]}
+                onPress={() => toggleSubcategory(subcategory.id)}
+              >
+                <View style={styles.subcategoryContent}>
+                  <View
+                    style={[
+                      styles.subcategoryIndicator,
+                      {
+                        backgroundColor: selectedSubcategories.includes(subcategory.id)
+                          ? Colors.tabIconSelected
+                          : "#F0F0F0",
+                      },
+                    ]}
+                  />
+                  <Text
+                    style={[
+                      styles.subcategoryText,
+                      selectedSubcategories.includes(subcategory.id) &&
+                        styles.selectedSubcategoryText,
+                    ]}
+                  >
+                    {subcategory.name}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+      );
+    }
+    
+    return (
+      <View style={styles.accordionContainer}>
+        {categories.map((category: any) => (
+          <View key={category.id} style={styles.accordionItem}>
+            <TouchableOpacity
+              style={[
+                styles.categoryHeader,
+                selectedCategories.includes(category.id) &&
+                  styles.selectedCategoryHeader,
+                category.id === preSelectedCategory &&
+                  styles.preSelectedCategoryHeader,
+              ]}
+              onPress={() => {
+                toggleCategory(category.id);
+                if (category.subcategories?.length > 0) {
+                  toggleCategoryExpansion(category.id);
+                }
+              }}
+              disabled={
+                isCategoryScreen || 
+                (category.id === preSelectedCategory &&
+                selectedCategories.includes(category.id))
               }
-            }}
-            disabled={
-              category.id === preSelectedCategory &&
-              selectedCategories.includes(category.id)
-            }
-          >
+            >
             <View style={styles.categoryHeaderContent}>
               <View style={styles.categoryInfo}>
                 <View
@@ -262,6 +309,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
       ))}
     </View>
   );
+  };
 
   return (
     <Modal

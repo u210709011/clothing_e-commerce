@@ -15,6 +15,11 @@ export const mockProducts: Product[] = [
       slug: 'clothing',
       imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=500&fit=crop'
     },
+    subcategory: {
+      id: '1',
+      name: 'T-shirts',
+      slug: 'tshirts'
+    },
     images: [
       'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=500&fit=crop',
       'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=400&h=500&fit=crop',
@@ -54,6 +59,11 @@ export const mockProducts: Product[] = [
       slug: 'clothing',
       imageUrl: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=500&fit=crop'
     },
+    subcategory: {
+      id: '2',
+      name: 'Pants',
+      slug: 'pants'
+    },
     images: [
       'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=500&fit=crop',
       'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&h=500&fit=crop',
@@ -88,6 +98,11 @@ export const mockProducts: Product[] = [
       slug: 'shoes',
       imageUrl: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=500&fit=crop'
     },
+    subcategory: {
+      id: '3',
+      name: 'Sneakers',
+      slug: 'sneakers'
+    },
     images: [
       'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=500&fit=crop',
       'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&h=500&fit=crop',
@@ -120,6 +135,11 @@ export const mockProducts: Product[] = [
       slug: 'bags',
       imageUrl: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=500&fit=crop'
     },
+    subcategory: {
+      id: '4',
+      name: 'Crossbody',
+      slug: 'crossbody'
+    },
     images: [
       'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=500&fit=crop',
       'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=400&h=500&fit=crop',
@@ -151,6 +171,11 @@ export const mockProducts: Product[] = [
       slug: 'clothing',
       imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=500&fit=crop'
     },
+    subcategory: {
+      id: '5',
+      name: 'Accessories',
+      slug: 'accessories'
+    },
     images: [
       'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=500&fit=crop',
       'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=500&fit=crop',
@@ -181,6 +206,11 @@ export const mockProducts: Product[] = [
       name: 'Clothing',
       slug: 'clothing',
       imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=500&fit=crop'
+    },
+    subcategory: {
+      id: '6',
+      name: 'Watches',
+      slug: 'watches'
     },
     images: [
       'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=500&fit=crop',
@@ -240,6 +270,7 @@ export const mockCategories = [
     title: "Clothing",
     subtitle: "Latest trends",
     count: 109,
+    slug: "clothing",
     imageUrls: [
       "https://images.unsplash.com/photo-1445205170230-053b83016050?w=100&h=100&fit=crop",
       "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=100&h=100&fit=crop",
@@ -253,6 +284,7 @@ export const mockCategories = [
     title: "Shoes",
     subtitle: "Comfort & style",
     count: 530,
+    slug: "shoes",
     imageUrls: [
       "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=100&h=100&fit=crop",
       "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=100&h=100&fit=crop",
@@ -266,6 +298,7 @@ export const mockCategories = [
     title: "Bags",
     subtitle: "Carry in style",
     count: 87,
+    slug: "bags",
     imageUrls: [
       "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=100&h=100&fit=crop",
       "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=100&h=100&fit=crop",
@@ -279,8 +312,12 @@ export const mockCategories = [
     title: "Lingerie",
     subtitle: "Comfort first",
     count: 218,
+    slug: "lingerie",
     imageUrls: [
-
+      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=100&h=100&fit=crop",
+      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=100&h=100&fit=crop",
+      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=100&h=100&fit=crop",
+      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=100&h=100&fit=crop"
     ],
     backgroundColor: "#F0E6FF",
   },
@@ -289,6 +326,7 @@ export const mockCategories = [
     title: "Watches",
     subtitle: "Time in style",
     count: 156,
+    slug: "watches",
     imageUrls: [
       "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100&h=100&fit=crop",
       "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=100&h=100&fit=crop",
@@ -297,19 +335,6 @@ export const mockCategories = [
     ],
     backgroundColor: "#E8F5E8",
   },
-  {
-    id: "6",
-    title: "Hoodies",
-    subtitle: "Cozy comfort",
-    count: 342,
-    imageUrls: [
-      "https://images.unsplash.com/photo-1517942420142-6a296f9ee4b1?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1579572331145-5e53b299c64e?q=80&w=680&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1680292783974-a9a336c10366?q=80&w=694&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    ],
-    backgroundColor: "#FFE8E8",
-  }
 ];
 
 // SEARCH DATA
@@ -329,6 +354,8 @@ export const mockFilterCategories = [
       { id: 'shorts', name: 'Shorts', imageUrl: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=50&h=50&fit=crop' },
       { id: 'jackets', name: 'Jackets', imageUrl: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=50&h=50&fit=crop' },
       { id: 'tshirts', name: 'T-shirts', imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=50&h=50&fit=crop' },
+      { id: 'accessories', name: 'Accessories', imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=50&h=50&fit=crop' },
+      { id: 'watches', name: 'Watches', imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=50&h=50&fit=crop' },
     ]
   },
   {
@@ -439,35 +466,30 @@ export const getMockSpecifications = () => mockSpecifications;
 
 export const getMockDeliveryOptions = () => mockDeliveryOptions;
 
-// Centralized flash sale configuration (like an API)
 export const FLASH_SALE_CONFIG = {
   isActive: true,
-  endTime: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours from now
-  products: ['1', '3', '4', '6'], // Product IDs that are part of flash sale
+  endTime: new Date(Date.now() + 24 * 60 * 60 * 1000),
+  products: ['1', '3', '4', '6'],
   title: 'Flash Sale - Limited Time!',
   description: 'Up to 45% off selected items'
 };
 
-// Flash sale utilities
-// Flash sale API simulation
 export const getFlashSaleEndTime = () => FLASH_SALE_CONFIG.endTime;
 export const getFlashSaleProducts = () => mockProducts.filter(product => FLASH_SALE_CONFIG.products.includes(product.id));
 export const isFlashSaleActive = (product: Product) => FLASH_SALE_CONFIG.isActive && FLASH_SALE_CONFIG.products.includes(product.id);
 export const getFlashSaleDiscount = (product: Product) => {
   if (!isFlashSaleActive(product)) return 0;
   
-  // Different discounts for different products (like an API would return)
   const discountMap: Record<string, number> = {
-    '1': 40, // Classic Cotton Tee
-    '3': 35, // Casual Sneakers
-    '4': 45, // Leather Crossbody Bag
-    '6': 30  // Smart Watch
+    '1': 40, 
+    '3': 35, 
+    '4': 45,
+    '6': 30 
   };
   
   return discountMap[product.id] || 0;
 };
 
-// Additional API-like functions
 export const getFlashSaleInfo = () => ({
   isActive: FLASH_SALE_CONFIG.isActive,
   endTime: FLASH_SALE_CONFIG.endTime,

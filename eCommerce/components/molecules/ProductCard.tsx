@@ -98,8 +98,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onPress, style }) =>
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    margin: 6,
     backgroundColor: Colors.background,
     borderRadius: 12,
     overflow: 'hidden',
@@ -111,6 +109,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
+    height: 280, // Fixed height for consistent card heights
   },
   imageContainer: {
     position: 'relative',
@@ -171,6 +170,8 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     padding: 12,
+    flex: 1,
+    justifyContent: 'space-between',
   },
   name: {
     fontSize: 14,
@@ -178,6 +179,7 @@ const styles = StyleSheet.create({
     color: Colors.text,
     marginBottom: 4,
     lineHeight: 18,
+    height: 36, // Fixed height for 2 lines of text
   },
   priceContainer: {
     flexDirection: 'row',
@@ -199,6 +201,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 2,
+    minHeight: 16, // Minimum height for consistent spacing
   },
   rating: {
     fontSize: 12,

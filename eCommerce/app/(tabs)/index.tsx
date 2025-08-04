@@ -62,7 +62,7 @@ export default function HomeScreen() {
   };
 
   const handleCategoryPress = (category: any) => {
-    router.push(`/category/${category.id}`);
+    router.push(`/category/${category.slug}`);
   };
 
   const handleSeeAllPress = (section: string) => {

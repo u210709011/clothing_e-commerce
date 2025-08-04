@@ -124,6 +124,15 @@ export const useProductFilter = (products: Product[], initialCategory?: string) 
       );
     }
 
+    if (filterState.subcategories.length > 0) {
+      filtered = filtered.filter(product =>
+        product.subcategory && filterState.subcategories.some(subcategory => 
+          product.subcategory!.slug === subcategory || 
+          product.subcategory!.name.toLowerCase() === subcategory.toLowerCase()
+        )
+      );
+    }
+
     if (filterState.sizes.length > 0) {
       filtered = filtered.filter(product =>
         product.variants.some(variant =>
@@ -223,7 +232,7 @@ export const useProductFilter = (products: Product[], initialCategory?: string) 
       ...DEFAULT_FILTER_STATE,
       preSelectedCategory: prev.preSelectedCategory,
       categories: prev.preSelectedCategory ? [prev.preSelectedCategory] : [],
-      searchQuery: prev.searchQuery, // Keep search query
+      searchQuery: prev.searchQuery,
     }));
   };
 

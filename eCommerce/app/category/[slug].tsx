@@ -8,48 +8,25 @@ import ProductFilterView from "@/components/organisms/ProductFilterView";
 import { ProductAPI } from "@/services/product";
 import { Product } from "@/types/product";
 import { Colors } from "@/constants/Colors";
+import { mockCategories } from "@/services/mockData";
 
 const getCategoryData = (slug: string) => {
-  const categories: Record<string, any> = {
-    clothing: {
-      title: "Clothing",
-      subtitle: "Latest trends",
-      imageUrl:
-        "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=400&fit=crop",
-      backgroundColor: "#E8D5F2",
-    },
-    shoes: {
-      title: "Shoes",
-      subtitle: "Comfort & style",
-      imageUrl:
-        "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop",
-      backgroundColor: "#FFE5D9",
-    },
-    bags: {
-      title: "Bags",
-      subtitle: "Carry in style",
-      imageUrl:
-        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop",
-      backgroundColor: "#FFF2CC",
-    },
-    lingerie: {
-      title: "Lingerie",
-      subtitle: "Comfort first",
-      imageUrl:
-        "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop",
-      backgroundColor: "#D4EDDA",
-    },
-  };
+  const category = mockCategories.find(cat => cat.slug === slug);
+  
+  if (category) {
+    return {
+      title: category.title,
+      subtitle: category.subtitle,
+      imageUrl: category.imageUrls[0],
+      backgroundColor: category.backgroundColor,
+    };
+  }
 
-  return (
-    categories[slug as string] || {
-      title:
-        slug?.toString().charAt(0).toUpperCase() + slug?.toString().slice(1) ||
-        "Category",
-      subtitle: "Discover products",
-      backgroundColor: "#F8F9FA",
-    }
-  );
+  return {
+    title: slug?.toString().charAt(0).toUpperCase() + slug?.toString().slice(1) || "Category",
+    subtitle: "Discover products",
+    backgroundColor: "#F8F9FA",
+  };
 };
 
 export default function CategoryScreen() {
@@ -59,7 +36,9 @@ export default function CategoryScreen() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const categoryData = getCategoryData(slug as string);
+  // Convert slug to string and ensure it's properly formatted
+  const categorySlug = typeof slug === 'string' ? slug : String(slug);
+  const categoryData = getCategoryData(categorySlug);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -71,9 +50,7 @@ export default function CategoryScreen() {
     const fetchCategoryProducts = async () => {
       try {
         setLoading(true);
-        const fetchedProducts = await ProductAPI.getProductsByCategory(
-          slug as string
-        );
+        const fetchedProducts = await ProductAPI.getProductsByCategory(categorySlug);
         setProducts(fetchedProducts);
       } catch (error) {
         console.error("Error fetching category products:", error);
@@ -82,10 +59,10 @@ export default function CategoryScreen() {
       }
     };
 
-    if (slug) {
+    if (categorySlug) {
       fetchCategoryProducts();
     }
-  }, [slug]);
+  }, [categorySlug]);
 
   if (loading) {
     return (
@@ -96,7 +73,9 @@ export default function CategoryScreen() {
           alignItems: "center",
           paddingTop: top,
         }}
-      ></ThemedView>
+      >
+        <Icon name="hourglass-empty" size={32} color={Colors.textSecondary} />
+      </ThemedView>
     );
   }
 
@@ -104,11 +83,12 @@ export default function CategoryScreen() {
     <ThemedView style={{ flex: 1, paddingTop: top }}>
       <ProductFilterView
         products={products}
-        initialCategory={slug as string}
+        initialCategory={categorySlug}
         categoryTitle={categoryData.title}
         showSearchBar={true}
         placeholder={`Search in ${categoryData.title}`}
         headerTitle={categoryData.title}
+        isCategoryScreen={true}
         headerActions={
           <TouchableOpacity style={{ padding: 4 }}>
             <Icon name="more-vert" size={24} color={Colors.text} />

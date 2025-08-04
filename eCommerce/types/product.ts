@@ -10,6 +10,7 @@ export interface Product {
   name: string;
   description: string;
   category: Category;
+  subcategory?: Category;
   price: number;
   originalPrice?: number;
   discount?: number;

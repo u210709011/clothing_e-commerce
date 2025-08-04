@@ -25,6 +25,7 @@ interface ProductFilterViewProps {
   showBackButton?: boolean;
   headerTitle?: string;
   headerActions?: React.ReactNode;
+  isCategoryScreen?: boolean;
 }
 
 const ProductFilterView: React.FC<ProductFilterViewProps> = ({
@@ -36,6 +37,7 @@ const ProductFilterView: React.FC<ProductFilterViewProps> = ({
   showBackButton = false,
   headerTitle,
   headerActions,
+  isCategoryScreen = false,
 }) => {
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [isGridView, setIsGridView] = useState(true);
@@ -156,14 +158,15 @@ const ProductFilterView: React.FC<ProductFilterViewProps> = ({
   const renderProductGrid = () => (
     <FlatList
       data={filteredProducts}
-      numColumns={isGridView ? 2 : 1}
+      numColumns={2}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
-        <ProductCard
-          product={item}
-          onPress={() => handleProductPress(item)}
-          style={isGridView ? styles.productCard : styles.listProductCard}
-        />
+        <View style={styles.productCard}>
+          <ProductCard
+            product={item}
+            onPress={() => handleProductPress(item)}
+          />
+        </View>
       )}
       contentContainerStyle={styles.productGrid}
       showsVerticalScrollIndicator={false}
@@ -198,10 +201,9 @@ const ProductFilterView: React.FC<ProductFilterViewProps> = ({
 
   const renderResultsHeader = () => (
     <View style={styles.resultsHeader}>
-      <Text style={styles.allItemsTitle}>All Items</Text>
-      <TouchableOpacity style={styles.sortButton} onPress={handleFilterPress}>
-        <Icon name="tune" size={20} color={Colors.text} />
-      </TouchableOpacity>
+      <Text style={styles.allItemsTitle}>
+        {filteredProducts.length} {filteredProducts.length === 1 ? 'Item' : 'Items'}
+      </Text>
     </View>
   );
 
@@ -230,6 +232,7 @@ const ProductFilterView: React.FC<ProductFilterViewProps> = ({
         onClose={() => setShowFilterModal(false)}
         onApply={handleApplyFilters}
         preSelectedCategory={initialCategory}
+        isCategoryScreen={isCategoryScreen}
         initialFilters={{
           categories: filterState.categories,
           subcategories: filterState.subcategories,
@@ -314,11 +317,11 @@ const styles = StyleSheet.create({
   },
   productGrid: {
     paddingBottom: 100,
-    paddingHorizontal: 4,
+    paddingHorizontal: 8,
   },
   productCard: {
-    width: '48%',
-    marginHorizontal: 2,
+    flex: 1,
+    marginHorizontal: 4,
     marginBottom: 8,
   },
   listProductCard: {

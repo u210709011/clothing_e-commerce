@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   },
   productContainer: {
     marginRight: 12,
+    alignItems: 'center',
   },
   productCard: {
     width: 148,

@@ -26,7 +26,6 @@ const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
       const timeRemaining = getFlashSaleTimeRemaining();
       setTimeLeft(timeRemaining);
       
-      // Stop timer when flash sale ends
       if (timeRemaining.hours === 0 && timeRemaining.minutes === 0 && timeRemaining.seconds === 0) {
         clearInterval(timer);
       }
