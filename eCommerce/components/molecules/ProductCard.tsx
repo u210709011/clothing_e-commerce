@@ -7,6 +7,7 @@ import { Icon } from '../atoms/Icon';
 import { ThemedView } from '../ThemedView';
 import { Colors } from '@/constants/Colors';
 import { useWishlist } from '@/store/user';
+import { isFlashSaleActive, getFlashSaleDiscount } from '@/services/mockData';
 
 interface ProductCardProps {
   product: Product;
@@ -56,9 +57,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onPress, style }) =>
             color={isInWishlist(product.id) ? Colors.error : Colors.textSecondary} 
           />
         </TouchableOpacity>
-        {product.discount && (
+        {product.discount && !isFlashSaleActive(product) && (
           <View style={styles.discountBadge}>
             <Text style={styles.discountText}>-{product.discount}%</Text>
+          </View>
+        )}
+        {isFlashSaleActive(product) && (
+          <View style={styles.flashSaleBadge}>
+            <Text style={styles.flashSaleText}>-{getFlashSaleDiscount(product)}%</Text>
           </View>
         )}
       </View>
@@ -70,7 +76,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onPress, style }) =>
           {product.originalPrice && product.originalPrice > product.price && (
             <Text style={styles.originalPrice}>${product.originalPrice.toFixed(2)}</Text>
           )}
-          <Text style={styles.price}>${product.price.toFixed(2)}</Text>
+          {isFlashSaleActive(product) ? (
+            <Text style={styles.flashSalePrice}>
+              ${((product.originalPrice || product.price) * (1 - getFlashSaleDiscount(product) / 100)).toFixed(2)}
+            </Text>
+          ) : (
+            <Text style={styles.price}>${product.price.toFixed(2)}</Text>
+          )}
         </View>
         {product.rating && (
           <View style={styles.ratingContainer}>
@@ -137,6 +149,25 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 10,
     fontWeight: 'bold',
+  },
+  flashSaleBadge: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+    backgroundColor: '#FF6B35',
+    borderRadius: 8,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  flashSaleText: {
+    color: 'white',
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
+  flashSalePrice: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FF6B35',
   },
   infoContainer: {
     padding: 12,

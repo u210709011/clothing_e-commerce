@@ -7,6 +7,7 @@ import StarRating from '@/components/molecules/StarRating';
 import SizeSelector from '@/components/molecules/SizeSelector';
 import ColorPicker from '@/components/molecules/ColorPicker';
 import { Colors } from '@/constants/Colors';
+import { isFlashSaleActive, getFlashSaleDiscount, getFlashSaleEndTime } from '@/services/mockData';
 
 interface ProductInfoProps {
   product: Product;
@@ -23,13 +24,41 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
   onWishlistToggle,
   isWishlisted,
 }) => {
+  const isFlashSale = isFlashSaleActive(product);
+  const flashDiscount = getFlashSaleDiscount(product);
+  const flashEndTime = getFlashSaleEndTime();
+  const originalPrice = product.originalPrice || product.price;
+  const flashPrice = originalPrice * (1 - flashDiscount / 100);
+
   return (
     <View style={styles.container}>
+      {isFlashSale && (
+        <View style={styles.flashSaleBanner}>
+          <Icon name="flash-on" size={16} color="#FF6B35" />
+          <Text style={styles.flashSaleText}>
+            FLASH SALE: {flashDiscount}% OFF
+          </Text>
+          {flashEndTime && (
+            <Text style={styles.flashSaleTime}>
+              Ends in {Math.floor((flashEndTime.getTime() - Date.now()) / (1000 * 60 * 60))}h
+            </Text>
+          )}
+        </View>
+      )}
       <View style={styles.header}>
         <View style={styles.priceContainer}>
-          <Text style={styles.price}>${product.price.toFixed(2)}</Text>
-          {product.originalPrice && product.originalPrice > product.price && (
-          <Text style={styles.originalPrice}>${product.originalPrice.toFixed(2)}</Text>
+          {isFlashSale ? (
+            <>
+              <Text style={styles.flashSalePrice}>${flashPrice.toFixed(2)}</Text>
+              <Text style={styles.originalPrice}>${originalPrice.toFixed(2)}</Text>
+            </>
+          ) : (
+            <>
+              <Text style={styles.price}>${product.price.toFixed(2)}</Text>
+              {product.originalPrice && product.originalPrice > product.price && (
+                <Text style={styles.originalPrice}>${product.originalPrice.toFixed(2)}</Text>
+              )}
+            </>
           )}
         </View>
         <TouchableOpacity onPress={onWishlistToggle} style={styles.wishlistButton}>
@@ -140,6 +169,30 @@ const styles = StyleSheet.create({
   },
   variantsContainer: {
     gap: 16,
+  },
+  flashSaleBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF3E0',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 16,
+    gap: 8,
+  },
+  flashSaleText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#FF6B35',
+  },
+  flashSaleTime: {
+    fontSize: 12,
+    color: '#FF6B35',
+    marginLeft: 'auto',
+  },
+  flashSalePrice: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FF6B35',
   },
 });
 

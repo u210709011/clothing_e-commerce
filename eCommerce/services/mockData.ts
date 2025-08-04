@@ -369,7 +369,7 @@ export const mockFilterCategories = [
 // SIZES AND COLORS
 export const mockClothingSizes = ['XS', 'S', 'M', 'L', 'XL', '2XL'];
 export const mockShoeSizes = ['5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12'];
-export const mockSizes = mockClothingSizes; // Default to clothing sizes
+export const mockSizes = mockClothingSizes;
 export const mockColors = [
   { id: 'blue', color: '#007AFF' },
   { id: 'red', color: '#FF3B30' },
@@ -430,7 +430,7 @@ export const getMockRecommendations = () => mockRecommendations;
 
 export const getMockFilterData = () => ({
   categories: mockFilterCategories,
-  sizes: mockClothingSizes, // Default to clothing sizes
+  sizes: mockClothingSizes,
   colors: mockColors,
   sortOptions: mockSortOptions
 });
@@ -439,4 +439,54 @@ export const getMockSpecifications = () => mockSpecifications;
 
 export const getMockDeliveryOptions = () => mockDeliveryOptions;
 
-export const getFlashSaleEndTime = () => new Date(Date.now() + 24 * 60 * 60 * 1000);
+// Centralized flash sale configuration (like an API)
+export const FLASH_SALE_CONFIG = {
+  isActive: true,
+  endTime: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours from now
+  products: ['1', '3', '4', '6'], // Product IDs that are part of flash sale
+  title: 'Flash Sale - Limited Time!',
+  description: 'Up to 45% off selected items'
+};
+
+// Flash sale utilities
+// Flash sale API simulation
+export const getFlashSaleEndTime = () => FLASH_SALE_CONFIG.endTime;
+export const getFlashSaleProducts = () => mockProducts.filter(product => FLASH_SALE_CONFIG.products.includes(product.id));
+export const isFlashSaleActive = (product: Product) => FLASH_SALE_CONFIG.isActive && FLASH_SALE_CONFIG.products.includes(product.id);
+export const getFlashSaleDiscount = (product: Product) => {
+  if (!isFlashSaleActive(product)) return 0;
+  
+  // Different discounts for different products (like an API would return)
+  const discountMap: Record<string, number> = {
+    '1': 40, // Classic Cotton Tee
+    '3': 35, // Casual Sneakers
+    '4': 45, // Leather Crossbody Bag
+    '6': 30  // Smart Watch
+  };
+  
+  return discountMap[product.id] || 0;
+};
+
+// Additional API-like functions
+export const getFlashSaleInfo = () => ({
+  isActive: FLASH_SALE_CONFIG.isActive,
+  endTime: FLASH_SALE_CONFIG.endTime,
+  title: FLASH_SALE_CONFIG.title,
+  description: FLASH_SALE_CONFIG.description,
+  productCount: FLASH_SALE_CONFIG.products.length,
+  maxDiscount: Math.max(...FLASH_SALE_CONFIG.products.map(id => getFlashSaleDiscount({ id } as Product)))
+});
+
+export const getFlashSaleTimeRemaining = () => {
+  const now = new Date().getTime();
+  const endTime = FLASH_SALE_CONFIG.endTime.getTime();
+  const timeLeft = endTime - now;
+  
+  if (timeLeft <= 0) return { hours: 0, minutes: 0, seconds: 0 };
+  
+  const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+  
+  return { hours, minutes, seconds };
+};

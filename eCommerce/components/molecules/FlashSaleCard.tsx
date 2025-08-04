@@ -5,25 +5,28 @@ import { Image } from '@/components/atoms/Image';
 import { Badge } from '@/components/atoms/Badge';
 import { Colors } from '@/constants/Colors';
 import { Product } from '@/types/product';
+import { isFlashSaleActive, getFlashSaleDiscount } from '@/services/mockData';
 
 interface FlashSaleCardProps {
   product: Product;
-  discount: number;
   onPress: () => void;
 }
 
 const FlashSaleCard: React.FC<FlashSaleCardProps> = ({
   product,
-  discount,
   onPress,
 }) => {
+  const isFlashSale = isFlashSaleActive(product);
+  const flashDiscount = getFlashSaleDiscount(product);
+  const originalPrice = product.originalPrice || product.price;
+  const flashPrice = originalPrice * (1 - flashDiscount / 100);
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.imageContainer}>
         <Image source={{ uri: product.images[0] }} style={styles.image} />
         <Badge
-          text={`-${discount}%`}
-          style={styles.discountBadge}
+          text={`-${flashDiscount}%`}
+          style={isFlashSale ? styles.flashSaleBadge : styles.discountBadge}
           textStyle={styles.discountText}
         />
       </View>
@@ -33,10 +36,10 @@ const FlashSaleCard: React.FC<FlashSaleCardProps> = ({
         </Text>
         <View style={styles.priceContainer}>
           <Text style={styles.originalPrice}>
-            ${(product.price / (1 - discount / 100)).toFixed(2)}
+            ${originalPrice.toFixed(2)}
           </Text>
           <Text style={styles.salePrice}>
-            ${product.price.toFixed(2)}
+            ${flashPrice.toFixed(2)}
           </Text>
         </View>
       </View>
@@ -71,6 +74,15 @@ const styles = StyleSheet.create({
     top: 8,
     left: 8,
     backgroundColor: '#FF4757',
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  flashSaleBadge: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+    backgroundColor: '#FF6B35',
     borderRadius: 12,
     paddingHorizontal: 8,
     paddingVertical: 4,

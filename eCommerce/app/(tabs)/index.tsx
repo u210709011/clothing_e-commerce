@@ -14,7 +14,7 @@ import CategoriesSection from "@/components/organisms/CategoriesSection";
 import ProductListSection from "@/components/organisms/ProductListSection";
 
 import { getProducts } from "@/services/product";
-import { getMockPromoBanners, getMockCategories, getFlashSaleEndTime } from "@/services/mockData";
+import { getMockPromoBanners, getMockCategories, getFlashSaleEndTime, getFlashSaleProducts } from "@/services/mockData";
 import { Product } from "@/types/product";
 import { Colors } from "@/constants/Colors";
 
@@ -55,6 +55,7 @@ export default function HomeScreen() {
 
   const categories = getMockCategories();
   const flashSaleEndTime = getFlashSaleEndTime();
+  const flashSaleProducts = getFlashSaleProducts();
 
   const handleProductPress = (product: Product) => {
     router.push(`/product/${product.id}`);
@@ -125,8 +126,7 @@ export default function HomeScreen() {
         />
 
         <FlashSaleSection
-          products={products.slice(0, 6)}
-          endTime={flashSaleEndTime}
+          products={flashSaleProducts}
           onProductPress={handleProductPress}
           onSeeAllPress={() => handleSeeAllPress("flash-sale")}
         />

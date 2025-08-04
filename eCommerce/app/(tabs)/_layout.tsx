@@ -3,8 +3,8 @@ import React from "react";
 import { TouchableWithoutFeedback, View } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import CartIconWithBadge from "@/components/molecules/CartIconWithBadge";
+import WishlistIconWithBadge from "@/components/molecules/WishlistIconWithBadge";
 import { Colors } from "@/constants/Colors";
-
 
 export default function TabLayout() {
   return (
@@ -47,9 +47,10 @@ export default function TabLayout() {
         options={{
           title: "Wishlist",
           tabBarIcon: ({ color }) => (
-            <View style={{ alignItems: "center", justifyContent: "center" }}>
-              <MaterialIcons size={28} name="favorite" color={color} />
-            </View>
+            <WishlistIconWithBadge
+              size={28}
+              color={color}
+            />
           ),
         }}
       />

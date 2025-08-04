@@ -6,43 +6,34 @@ import SectionHeader from '@/components/molecules/SectionHeader';
 import FlashSaleCard from '@/components/molecules/FlashSaleCard';
 import { Colors } from '@/constants/Colors';
 import { Product } from '@/types/product';
+import { getFlashSaleTimeRemaining } from '@/services/mockData';
 
 interface FlashSaleSectionProps {
   products: Product[];
-  endTime?: Date;
   onSeeAllPress?: () => void;
   onProductPress: (product: Product) => void;
 }
 
 const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
   products,
-  endTime,
   onSeeAllPress,
   onProductPress,
 }) => {
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    if (!endTime) return;
-
     const timer = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = endTime.getTime() - now;
-
-      if (distance > 0) {
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        setTimeLeft({ hours, minutes, seconds });
-      } else {
-        setTimeLeft({ hours: 0, minutes: 0, seconds: 0 });
+      const timeRemaining = getFlashSaleTimeRemaining();
+      setTimeLeft(timeRemaining);
+      
+      // Stop timer when flash sale ends
+      if (timeRemaining.hours === 0 && timeRemaining.minutes === 0 && timeRemaining.seconds === 0) {
         clearInterval(timer);
       }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [endTime]);
+  }, []);
 
   const renderCountdownTimer = () => (
     <View style={styles.timerContainer}>
@@ -73,7 +64,7 @@ const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
           onSeeAllPress={onSeeAllPress}
           style={styles.sectionHeader}
         />
-        {endTime && renderCountdownTimer()}
+        {renderCountdownTimer()}
       </View>
       
       <ScrollView
@@ -85,7 +76,6 @@ const FlashSaleSection: React.FC<FlashSaleSectionProps> = ({
           <FlashSaleCard
             key={product.id}
             product={product}
-            discount={20}
             onPress={() => onProductPress(product)}
           />
         ))}

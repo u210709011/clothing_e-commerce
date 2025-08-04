@@ -1,24 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, FlatList, View } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { Text } from '@/components/atoms/Text';
 import ProductCard from '@/components/molecules/ProductCard';
-import { getProducts } from '@/services/product';
-import { Product } from '@/types/product';
+import { useWishlist } from '@/store/user';
 import { Colors } from '@/constants/Colors';
 
 export default function WishlistScreen() {
-  const [wishlistProducts, setWishlistProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { wishlistItems, isLoading, loadWishlist } = useWishlist();
 
   useEffect(() => {
-    const fetchWishlistProducts = async () => {
-      const allProducts = await getProducts();
-      const mockWishlist = allProducts.slice(0, 4);
-      setWishlistProducts(mockWishlist);
-      setLoading(false);
-    };
-    fetchWishlistProducts();
+    loadWishlist();
   }, []);
 
   const renderEmptyWishlist = () => (
@@ -30,14 +22,14 @@ export default function WishlistScreen() {
     </View>
   );
 
-  const renderWishlistItem = ({ item }: { item: Product }) => (
+  const renderWishlistItem = ({ item }: { item: any }) => (
     <ProductCard
       product={item}
       style={styles.productCard}
     />
   );
 
-  if (loading) {
+  if (isLoading) {
     return (
       <ThemedView style={styles.centered}>
         <Text>Loading wishlist...</Text>
@@ -47,11 +39,11 @@ export default function WishlistScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      {wishlistProducts.length === 0 ? (
+      {wishlistItems.length === 0 ? (
         renderEmptyWishlist()
       ) : (
         <FlatList
-          data={wishlistProducts}
+          data={wishlistItems}
           numColumns={2}
           keyExtractor={(item) => item.id}
           renderItem={renderWishlistItem}
