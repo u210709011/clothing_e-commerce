@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   productCard: {
-    flex: 1,
+    width: '48%',
     marginHorizontal: 4,
     marginBottom: 16,
   },

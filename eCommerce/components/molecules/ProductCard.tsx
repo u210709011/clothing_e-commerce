@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
-    height: 280, // Fixed height for consistent card heights
+    height: 280,
   },
   imageContainer: {
     position: 'relative',
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     color: Colors.text,
     marginBottom: 4,
     lineHeight: 18,
-    height: 36, // Fixed height for 2 lines of text
+    height: 36,
   },
   priceContainer: {
     flexDirection: 'row',
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 2,
-    minHeight: 16, // Minimum height for consistent spacing
+    minHeight: 16,
   },
   rating: {
     fontSize: 12,
